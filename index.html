@@ -209,10 +209,11 @@
       <div class="muted">Pago único. Sin suscripción.</div>
       <ul>
         <li>Licencia personal, una PC.</li>
-        <li>Todas las actualizaciones de la versión 1.</li>
+        <li><strong>Actualizaciones incluidas durante 12 meses</strong> desde la compra. Después, la versión que tenés sigue funcionando sin límite.</li>
         <li>Instalador para Windows, listo en dos clicks.</li>
         <li>Soporte por mail.</li>
       </ul>
+      <p class="soft">Es el precio de lanzamiento: va a subir cuando salga la versión siguiente. Quien compra ahora se queda con este precio y con los 12 meses de actualizaciones.</p>
       <a class="btn btn-gold" id="btn-pagar" href="#" aria-disabled="true">Pagar con Mercado Pago</a>
       <div class="after-pay">
         <strong>Después del pago:</strong> te mandamos el instalador y la guía de instalación al mail que usaste para pagar, dentro de las 24 h. Si en ese plazo no lo recibiste, escribinos a <a id="mail-link" href="#">el mail de soporte</a>.
@@ -231,6 +232,7 @@
     <details><summary>¿De dónde salen los rangos?</summary><p>De rangos de referencia por posición y stack (chip-EV, Nash para push/fold), ajustados por ICM y bounty, y contrastados contra cómo juega el campo real. Podés ver el chart que juzgó cada mano, y editarlo si seguís otra escuela.</p></details>
     <details><summary>Windows dice "protegió su PC" al instalar</summary><p>Es porque el instalador todavía no tiene firma digital, no porque haya algo malo adentro. Click en <em>Más información</em> y después en <em>Ejecutar de todas formas</em>.</p></details>
     <details><summary>¿Cómo recibo el programa?</summary><p>Con el link de descarga que te mandamos por mail después del pago. Cada versión nueva te llega al mismo mail.</p></details>
+    <details><summary>¿Qué pasa después de los 12 meses de actualizaciones?</summary><p>La versión que tenés instalada sigue funcionando igual, sin vencimiento ni bloqueo. Lo que dejás de recibir son las versiones nuevas; si querés seguir actualizando, se renueva a un precio menor que el de compra.</p></details>
     <details><summary>¿Qué pasa con mis manos?</summary><p>Se quedan en tu PC, en una base local. No subimos nada a ningún servidor, no hay cuenta ni login.</p></details>
   </div>
 </section>
@@ -244,10 +246,10 @@
 
 <script>
   // ---- Lo que hay que completar antes de publicar (ver marketing/LANZAMIENTO.md) ----
-  const MP_LINK = '';                       // link de pago de Mercado Pago, ej: https://mpago.la/xxxx
-  const PRECIO  = 'USD 29';                 // lo que muestra la tarjeta de precio
-  const MAIL    = '';                       // mail de soporte, ej: hola@tudominio.com
-  const IG_URL  = '';                       // perfil de Instagram
+  const MP_LINK = 'https://mpago.la/22x8qa2';   // link de pago de Mercado Pago (creado 2026-10-22, ARS 30.000)
+  const PRECIO  = 'ARS 30.000';                 // lo que muestra la tarjeta de precio
+  const MAIL    = '';                           // mail de soporte, ej: hola@tudominio.com
+  const IG_URL  = 'https://www.instagram.com/payjumppoker/';
   // ------------------------------------------------------------------------------------
 
   document.getElementById('anio').textContent = new Date().getFullYear();
