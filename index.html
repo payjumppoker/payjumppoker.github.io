@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- MARCA: el nombre se publico el 2026-10-21 (decision del usuario).
+     El dominio canonico es payjumppoker.com; mientras no este comprado, GitHub Pages. -->
+<title>Payjump</title>
+<meta name="description" content="Encontrá el error que más fichas te cuesta en tus torneos online de Texas Hold'em. Diagnóstico sobre tus manos reales, replay, teoría y trainer. Windows, 100% local, pago único.">
+<meta property="og:title" content="Payjump — el error que más fichas te cuesta">
+<meta property="og:description" content="Diagnóstico de tus torneos online, mano por mano. Sin PokerTracker. 100% local.">
+<meta property="og:image" content="img/diagnostico.png">
+<meta property="og:type" content="website">
+<style>
+  :root {
+    --surface: #141823; --surface-2: #1b2030; --surface-3: #232938;
+    --text: #F4F5F7; --text-2: #B4C2D4; --text-soft: #8593a8;
+    --gold: #FBBF24; --amber: #F59E0B; --border: #232938;
+    --raise: #F03C3C; --call: #5AB966;
+    --radius: 14px; --maxw: 1080px;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--surface); color: var(--text);
+    font: 16px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  a { color: var(--gold); }
+  img, video { max-width: 100%; display: block; }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 16px; }
+  h1, h2, h3 { line-height: 1.15; letter-spacing: -0.01em; margin: 0 0 12px; }
+  h1 { font-size: clamp(32px, 5vw, 54px); }
+  h2 { font-size: clamp(24px, 3.4vw, 34px); }
+  h3 { font-size: 19px; }
+  p { margin: 0 0 12px; }
+  .muted { color: var(--text-2); }
+  .soft { color: var(--text-soft); font-size: 14px; }
+  section { padding: 64px 0; border-top: 1px solid var(--border); }
+
+  /* nav */
+  nav { position: sticky; top: 0; z-index: 10; background: rgba(20,24,35,.92);
+    backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); }
+  nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 58px; }
+  .brand { font-weight: 800; letter-spacing: -0.02em; color: var(--text); text-decoration: none; font-size: 18px; }
+  .brand b { color: var(--gold); }
+  nav ul { display: flex; gap: 18px; list-style: none; margin: 0; padding: 0; }
+  nav ul a { color: var(--text-2); text-decoration: none; font-size: 14px; }
+  nav ul a:hover { color: var(--text); }
+  @media (max-width: 640px) { nav ul li:not(:last-child) { display: none; } }
+
+  /* buttons */
+  .btn { display: inline-block; padding: 13px 22px; border-radius: 10px; font-weight: 700;
+    text-decoration: none; border: 1px solid transparent; cursor: pointer; font-size: 16px; }
+  .btn-gold { background: var(--gold); color: #141823; }
+  .btn-gold:hover { background: var(--amber); }
+  .btn-ghost { background: transparent; color: var(--text); border-color: var(--surface-3); }
+  .btn-ghost:hover { border-color: var(--text-soft); }
+  .btn[aria-disabled="true"] { opacity: .55; cursor: not-allowed; }
+
+  /* hero */
+  .hero { padding: 64px 0 40px; border-top: 0; }
+  .hero .wrap { display: grid; gap: 28px; }
+  .eyebrow { color: var(--gold); font-weight: 700; text-transform: uppercase; letter-spacing: .08em; font-size: 13px; }
+  .lead { font-size: clamp(17px, 2vw, 21px); color: var(--text-2); max-width: 720px; }
+  .cta-row { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+  .video-frame { border: 1px solid var(--surface-3); border-radius: var(--radius); overflow: hidden;
+    background: #000; box-shadow: 0 20px 60px rgba(0,0,0,.45); }
+  .video-frame video { width: 100%; aspect-ratio: 16/9; }
+
+  /* steps */
+  .steps { display: grid; gap: 40px; }
+  .step { display: grid; gap: 18px; align-items: center; }
+  @media (min-width: 820px) {
+    .step { grid-template-columns: 1fr 1.4fr; }
+    .step:nth-child(even) .step-text { order: 2; }
+  }
+  .step img { border: 1px solid var(--surface-3); border-radius: 10px; }
+  .num { display: inline-grid; place-items: center; width: 34px; height: 34px; border-radius: 50%;
+    background: var(--gold); color: #141823; font-weight: 800; margin-bottom: 10px; }
+
+  /* features */
+  .grid { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+  .card { background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; }
+  .card h3 { margin-bottom: 6px; }
+  .card p { margin: 0; color: var(--text-2); font-size: 15px; }
+
+  /* pricing */
+  .price-card { background: var(--surface-2); border: 1px solid var(--gold); border-radius: var(--radius);
+    padding: 28px; max-width: 520px; margin: 0 auto; text-align: center; }
+  .price { font-size: 48px; font-weight: 800; color: var(--gold); line-height: 1; margin: 8px 0 4px; }
+  .price-card ul { text-align: left; margin: 18px auto; padding-left: 20px; color: var(--text-2); max-width: 380px; }
+  .price-card ul li { margin: 6px 0; }
+  .after-pay { background: var(--surface-3); border-radius: 10px; padding: 12px 14px; font-size: 14px; color: var(--text-2); margin-top: 16px; text-align: left; }
+
+  /* compat */
+  .pills { display: flex; flex-wrap: wrap; gap: 8px; }
+  .pill { background: var(--surface-3); border-radius: 999px; padding: 6px 12px; font-size: 14px; }
+
+  /* faq */
+  details { border: 1px solid var(--border); border-radius: 10px; padding: 12px 16px; margin-bottom: 10px; background: var(--surface-2); }
+  summary { cursor: pointer; font-weight: 700; }
+  details p { margin: 10px 0 0; color: var(--text-2); }
+
+  footer { padding: 36px 0; border-top: 1px solid var(--border); color: var(--text-soft); font-size: 14px; }
+  footer .wrap { display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="brand" href="#"><b>Payjump</b></a>
+    <ul>
+      <li><a href="#como">Cómo funciona</a></li>
+      <li><a href="#que">Qué incluye</a></li>
+      <li><a href="#faq">Preguntas</a></li>
+      <li><a href="#precio" class="btn btn-gold" style="padding:8px 14px; font-size:14px;">Comprar</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div>
+      <div class="eyebrow">Torneos online · MTT y PKO · Windows</div>
+      <h1>Encontrá el error que más fichas te cuesta en tus torneos.</h1>
+      <p class="lead">Lee tus manos reales directo de la carpeta de tu sala, te muestra qué error repetís y cuánto te cuesta, y te lleva de esa mano a la teoría y al trainer que lo corrige. Sin PokerTracker, sin cuenta, sin subir nada a internet.</p>
+      <div class="cta-row">
+        <a class="btn btn-gold" href="#precio">Comprar y descargar</a>
+        <a class="btn btn-ghost" href="#demo">Ver la demo de 1 minuto</a>
+      </div>
+    </div>
+    <div class="video-frame" id="demo">
+      <video controls playsinline preload="metadata" poster="demo-poster.png">
+        <source src="demo.mp4" type="video/mp4">
+        <source src="demo.webm" type="video/webm">
+        Tu navegador no reproduce video. <a href="demo.mp4">Descargá la demo</a>.
+      </video>
+    </div>
+  </div>
+</header>
+
+<section id="como">
+  <div class="wrap">
+    <h2>Cómo funciona</h2>
+    <p class="muted" style="margin-bottom:36px;">El bucle completo: detectar, entender, estudiar, practicar. Todo sobre <em>tus</em> manos.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-text">
+          <div class="num">1</div>
+          <h3>Diagnóstico sobre tus manos reales</h3>
+          <p class="muted">Importa tus hand histories de PokerStars, Winamax, 888, GGPoker y más. Compara cada decisión contra rangos de referencia y te lista los errores que <strong>repetís</strong>, ordenados por lo que te cuestan.</p>
+        </div>
+        <img src="img/diagnostico.png" alt="Tabla de diagnóstico con los leaks ordenados por costo" loading="lazy">
+      </div>
+      <div class="step">
+        <div class="step-text">
+          <div class="num">2</div>
+          <h3>Replay de la mano exacta</h3>
+          <p class="muted">Cada error abre la mano donde pasó: tu acción, lo que decía el rango para ese stack y esa posición, y por qué. Preflop y postflop (c-bet, barriles).</p>
+        </div>
+        <img src="img/replay.png" alt="Replay de una mano con el veredicto y el rango de referencia" loading="lazy">
+      </div>
+      <div class="step">
+        <div class="step-text">
+          <div class="num">3</div>
+          <h3>La teoría que explica ese error</h3>
+          <p class="muted">Desde el replay, un click te lleva al módulo que cubre ese spot: push/fold, defensa de ciega, squeeze, ICM en burbuja, bounty cuando cubrís al rival, c-bet por textura.</p>
+        </div>
+        <img src="img/teoria.png" alt="Módulo de teoría con el chart vivo" loading="lazy">
+      </div>
+      <div class="step">
+        <div class="step-text">
+          <div class="num">4</div>
+          <h3>Trainer y calentamiento</h3>
+          <p class="muted">Practicás los spots que te fallan, no spots al azar. Veredicto inmediato con el rango al lado, repetición espaciada, y un calentamiento de cinco minutos antes de cada sesión.</p>
+        </div>
+        <img src="img/trainer.png" alt="Trainer con el veredicto de un spot" loading="lazy">
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="que">
+  <div class="wrap">
+    <h2>Qué incluye</h2>
+    <div class="grid" style="margin-top:22px;">
+      <div class="card"><h3>Sólo torneos</h3><p>MTT y SnG, vanilla y bounty/PKO. Stacks reales, no 100bb fijos. No cubre cash.</p></div>
+      <div class="card"><h3>ICM y bounty</h3><p>En burbuja y mesa final los rangos se contraen; con bounty y cubriendo al rival, se expanden. El veredicto lo tiene en cuenta.</p></div>
+      <div class="card"><h3>Push/fold anclado en Nash</h3><p>Con 12bb o menos, el chart es el equilibrio: ni "abrir chico" ni "esperar una mejor".</p></div>
+      <div class="card"><h3>Postflop por textura</h3><p>C-bet de flop, segundo barril y river, juzgados según el board y quién pagó.</p></div>
+      <div class="card"><h3>Tu nivel contra el pool</h3><p>Tus stats comparadas contra cómo juega el campo a tu buy-in, medido sobre 1,6 millones de manos de rivales.</p></div>
+      <div class="card"><h3>100% local</h3><p>No se conecta a la sala ni a ningún servidor. Tus manos no salen de tu PC. Cerrala antes de sentarte a jugar.</p></div>
+    </div>
+    <h3 style="margin-top:36px;">Compatibilidad</h3>
+    <div class="pills">
+      <span class="pill">Windows 10 / 11</span>
+      <span class="pill">PokerStars</span><span class="pill">Winamax</span><span class="pill">888poker</span>
+      <span class="pill">GGPoker</span><span class="pill">iPoker</span><span class="pill">PartyPoker</span><span class="pill">CoinPoker (export)</span>
+      <span class="pill">PokerTracker 4 (opcional)</span>
+    </div>
+    <p class="soft" style="margin-top:10px;">Mac y Linux: versión en ZIP a pedido, escribinos.</p>
+  </div>
+</section>
+
+<section id="precio">
+  <div class="wrap">
+    <div class="price-card">
+      <div class="eyebrow">Precio de lanzamiento</div>
+      <div class="price" id="precio-valor">USD 29</div>
+      <div class="muted">Pago único. Sin suscripción.</div>
+      <ul>
+        <li>Licencia personal, una PC.</li>
+        <li>Todas las actualizaciones de la versión 1.</li>
+        <li>Instalador para Windows, listo en dos clicks.</li>
+        <li>Soporte por mail.</li>
+      </ul>
+      <a class="btn btn-gold" id="btn-pagar" href="#" aria-disabled="true">Pagar con Mercado Pago</a>
+      <div class="after-pay">
+        <strong>Después del pago:</strong> te mandamos el instalador y la guía de instalación al mail que usaste para pagar, dentro de las 24 h. Si en ese plazo no lo recibiste, escribinos a <a id="mail-link" href="#">el mail de soporte</a>.
+      </div>
+      <p class="soft" style="margin-top:12px;">Siete días de garantía: si no te sirve, te devolvemos el dinero.</p>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap">
+    <h2>Preguntas frecuentes</h2>
+    <details><summary>¿Me puede traer problemas con la sala?</summary><p>La app no se conecta a la sala, no lee la mesa en vivo y no modifica nada: analiza los archivos de manos que la sala ya guarda en tu disco, después de jugar. Igual, varias salas miran qué programas tenés abiertos mientras jugás. Por eso la app corre en una ventana visible: cerrala antes de sentarte a jugar.</p></details>
+    <details><summary>¿Necesito PokerTracker o Hold'em Manager?</summary><p>No. Lee las manos directo de las carpetas donde tu sala las guarda. Si ya usás PokerTracker 4, podés analizar desde su base en vez de importar; es opcional.</p></details>
+    <details><summary>¿Sirve para cash games?</summary><p>No. Está hecho para torneos: stacks cortos, push/fold, ICM en burbuja y mesa final, bounties. Un rango de cash a 100bb no es lo que vas a jugar en un torneo.</p></details>
+    <details><summary>¿De dónde salen los rangos?</summary><p>De rangos de referencia por posición y stack (chip-EV, Nash para push/fold), ajustados por ICM y bounty, y contrastados contra cómo juega el campo real. Podés ver el chart que juzgó cada mano, y editarlo si seguís otra escuela.</p></details>
+    <details><summary>Windows dice "protegió su PC" al instalar</summary><p>Es porque el instalador todavía no tiene firma digital, no porque haya algo malo adentro. Click en <em>Más información</em> y después en <em>Ejecutar de todas formas</em>.</p></details>
+    <details><summary>¿Cómo recibo el programa?</summary><p>Con el link de descarga que te mandamos por mail después del pago. Cada versión nueva te llega al mismo mail.</p></details>
+    <details><summary>¿Qué pasa con mis manos?</summary><p>Se quedan en tu PC, en una base local. No subimos nada a ningún servidor, no hay cuenta ni login.</p></details>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div>© <span id="anio"></span> Payjump. Hecho en Argentina.</div>
+    <div><a id="mail-footer" href="#">Contacto</a> · <a id="ig-link" href="#" rel="noopener">Instagram</a></div>
+  </div>
+</footer>
+
+<script>
+  // ---- Lo que hay que completar antes de publicar (ver marketing/LANZAMIENTO.md) ----
+  const MP_LINK = '';                       // link de pago de Mercado Pago, ej: https://mpago.la/xxxx
+  const PRECIO  = 'USD 29';                 // lo que muestra la tarjeta de precio
+  const MAIL    = '';                       // mail de soporte, ej: hola@tudominio.com
+  const IG_URL  = '';                       // perfil de Instagram
+  // ------------------------------------------------------------------------------------
+
+  document.getElementById('anio').textContent = new Date().getFullYear();
+  document.getElementById('precio-valor').textContent = PRECIO;
+
+  const pagar = document.getElementById('btn-pagar');
+  if (MP_LINK) {
+    pagar.href = MP_LINK; pagar.removeAttribute('aria-disabled'); pagar.target = '_blank'; pagar.rel = 'noopener';
+  } else {
+    pagar.textContent = 'Pago: link pendiente';
+    pagar.addEventListener('click', (e) => e.preventDefault());
+  }
+  for (const id of ['mail-link', 'mail-footer']) {
+    const a = document.getElementById(id);
+    if (MAIL) { a.href = 'mailto:' + MAIL; if (id === 'mail-link') a.textContent = MAIL; }
+    else a.removeAttribute('href');
+  }
+  const ig = document.getElementById('ig-link');
+  if (IG_URL) { ig.href = IG_URL; ig.target = '_blank'; } else ig.style.display = 'none';
+</script>
+</body>
+</html>
