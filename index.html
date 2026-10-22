@@ -220,7 +220,6 @@
       <div class="after-pay">
         <strong>Después del pago:</strong> te mandamos el instalador y la guía de instalación al mail que usaste para pagar, dentro de las 24 h. Si en ese plazo no lo recibiste, escribinos a <a id="mail-link" href="#">el mail de soporte</a>.
       </div>
-      <p class="soft" style="margin-top:12px;">Siete días de garantía: si no te sirve, te devolvemos el dinero.</p>
     </div>
   </div>
 </section>
@@ -248,7 +247,9 @@
 
 <script>
   // ---- Lo que hay que completar antes de publicar (ver marketing/LANZAMIENTO.md) ----
-  const MP_LINK = 'https://mpago.la/22x8qa2';   // link de pago de Mercado Pago (creado 2026-10-21, ARS 30.000)
+  // Checkout Pro con vuelta a /gracias.html (marketing/mercadopago/crear_checkout.js, 2026-10-21, ARS 30.000).
+  // El link de pago viejo de la interfaz (https://mpago.la/22x8qa2) sigue vivo pero no vuelve al sitio.
+  const MP_LINK = 'https://www.mercadopago.com.ar/checkout/v1/redirect?pref_id=1991644-ff430bc5-8a58-4701-944c-5f68203945c0';
   const PRECIO  = 'ARS 30.000';                 // lo que muestra la tarjeta de precio
   const MAIL    = 'support@payjumppoker.com';   // reenvia a Gmail (Porkbun Email Forwarding, 2026-10-21)
   const IG_URL  = 'https://www.instagram.com/payjumppoker/';

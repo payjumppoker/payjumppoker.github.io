@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Payjump — gracias</title>
+<!-- Pagina de vuelta del checkout de Mercado Pago (marketing/mercadopago/crear_checkout.js).
+     MP agrega a la URL: collection_id, collection_status, payment_id, status,
+     external_reference, payment_type, merchant_order_id, preference_id. -->
+<style>
+  :root { --surface: #141823; --surface-2: #1b2030; --text: #F4F5F7; --text-2: #B4C2D4; --gold: #FBBF24; --border: #232938; }
+  body { margin: 0; background: var(--surface); color: var(--text); font: 16px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  .wrap { max-width: 640px; margin: 0 auto; padding: 56px 16px; }
+  .brand { font-weight: 800; font-size: 22px; letter-spacing: -0.02em; margin-bottom: 28px; }
+  .brand b { color: var(--gold); }
+  h1 { font-size: clamp(26px, 4vw, 36px); margin: 0 0 12px; line-height: 1.15; }
+  p { margin: 0 0 12px; color: var(--text-2); }
+  .card { background: var(--surface-2); border: 1px solid var(--border); border-radius: 14px; padding: 22px; margin: 22px 0; }
+  .card ol { margin: 0; padding-left: 20px; color: var(--text-2); } .card li { margin: 8px 0; }
+  .op { font-family: ui-monospace, Consolas, monospace; color: var(--text); }
+  a { color: var(--gold); }
+  .btn { display: inline-block; margin-top: 8px; padding: 12px 20px; border-radius: 10px; background: var(--gold); color: #141823; font-weight: 700; text-decoration: none; }
+  .soft { font-size: 14px; color: #8593a8; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="brand">Pay<b>jump</b></div>
+  <h1 id="titulo">Recibimos tu pago. Gracias.</h1>
+  <p id="lead">En menos de <strong>48 horas</strong> te llega el instalador al mail de tu cuenta de Mercado Pago.</p>
+
+  <div class="card">
+    <strong>Qué sigue</strong>
+    <ol>
+      <li>Te mandamos un mail con el link del instalador y la guía.</li>
+      <li>Lo instalás (dos clicks, sin contraseña de administrador).</li>
+      <li>La app te muestra un <em>código de equipo</em>; nos lo mandás y te respondemos con tu clave. Tu compra incluye hasta dos computadoras.</li>
+    </ol>
+  </div>
+
+  <p class="soft">Operación <span class="op" id="op">—</span>. Si pasaron 48 horas y no te llegó nada, revisá Spam y escribinos a <a href="mailto:support@payjumppoker.com">support@payjumppoker.com</a> con ese número.</p>
+  <a class="btn" href="/">Volver al sitio</a>
+</div>
+<script>
+  const q = new URLSearchParams(location.search);
+  const estado = q.get('estado') || q.get('status') || q.get('collection_status') || '';
+  const op = q.get('payment_id') || q.get('collection_id') || q.get('merchant_order_id') || '';
+  document.getElementById('op').textContent = op || 'sin número';
+  if (estado === 'pendiente' || estado === 'pending' || estado === 'in_process') {
+    document.getElementById('titulo').textContent = 'Tu pago está en proceso.';
+    document.getElementById('lead').innerHTML = 'Mercado Pago todavía no lo confirmó. Cuando se acredite, te mandamos el instalador dentro de las <strong>48 horas</strong>. No hace falta que hagas nada.';
+  } else if (estado === 'rejected' || estado === 'failure') {
+    document.getElementById('titulo').textContent = 'El pago no se pudo completar.';
+    document.getElementById('lead').innerHTML = 'No se te cobró nada. Podés intentar de nuevo desde <a href="/#precio">la página de compra</a> o escribirnos si el problema sigue.';
+  }
+</script>
+</body>
+</html>
