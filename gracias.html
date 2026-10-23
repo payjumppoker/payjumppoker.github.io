@@ -30,7 +30,7 @@
 <div class="wrap">
   <div class="brand">Pay<b>jump</b></div>
   <h1 id="titulo">Tu suscripción está activa. Gracias.</h1>
-  <p id="lead">En unos minutos te llega el instalador al mail de tu cuenta de Mercado Pago.</p>
+  <p id="lead">Dentro de las próximas <strong>24 horas hábiles</strong> te llega el instalador al mail de tu cuenta de Mercado Pago.</p>
 
   <div class="card">
     <strong>Qué sigue</strong>
@@ -41,7 +41,7 @@
     </ol>
   </div>
 
-  <p class="soft" id="pie">Si en una hora no te llegó nada, revisá Spam y escribinos a <a href="mailto:support@payjumppoker.com">support@payjumppoker.com</a> desde el mail con el que te suscribiste. Podés cancelar cuando quieras desde tu cuenta de Mercado Pago, en Suscripciones.</p>
+  <p class="soft" id="pie">Si pasadas las 24 horas hábiles no te llegó nada, revisá Spam y escribinos a <a href="mailto:support@payjumppoker.com">support@payjumppoker.com</a> desde el mail con el que te suscribiste. Podés cancelar cuando quieras desde tu cuenta de Mercado Pago, en Suscripciones.</p>
   <a class="btn" href="/">Volver al sitio</a>
 </div>
 <script>
@@ -52,12 +52,12 @@
     // Pago unico (checkout viejo): el instalador y la clave van a mano.
     const op = q.get('payment_id') || q.get('collection_id') || q.get('merchant_order_id') || '';
     document.getElementById('titulo').textContent = 'Recibimos tu pago. Gracias.';
-    document.getElementById('lead').innerHTML = 'En menos de <strong>48 horas</strong> te llega el instalador al mail de tu cuenta de Mercado Pago.';
+    document.getElementById('lead').innerHTML = 'Dentro de las próximas <strong>24 horas hábiles</strong> te llega el instalador al mail de tu cuenta de Mercado Pago.';
     document.getElementById('pasos').children[2].textContent = 'La app te muestra un código de equipo; nos lo mandás y te respondemos con tu clave. Tu compra incluye hasta dos computadoras.';
-    document.getElementById('pie').innerHTML = `Operación <span class="op">${op || 'sin número'}</span>. Si pasaron 48 horas y no te llegó nada, revisá Spam y escribinos a <a href="mailto:support@payjumppoker.com">support@payjumppoker.com</a> con ese número.`;
+    document.getElementById('pie').innerHTML = `Operación <span class="op">${op || 'sin número'}</span>. Si pasaron 24 horas hábiles y no te llegó nada, revisá Spam y escribinos a <a href="mailto:support@payjumppoker.com">support@payjumppoker.com</a> con ese número.`;
     if (estado === 'pendiente' || estado === 'pending' || estado === 'in_process') {
       document.getElementById('titulo').textContent = 'Tu pago está en proceso.';
-      document.getElementById('lead').innerHTML = 'Mercado Pago todavía no lo confirmó. Cuando se acredite, te mandamos el instalador dentro de las <strong>48 horas</strong>. No hace falta que hagas nada.';
+      document.getElementById('lead').innerHTML = 'Mercado Pago todavía no lo confirmó. Cuando se acredite, te mandamos el instalador dentro de las <strong>24 horas hábiles</strong>. No hace falta que hagas nada.';
     } else if (estado === 'rejected' || estado === 'failure') {
       document.getElementById('titulo').textContent = 'El pago no se pudo completar.';
       document.getElementById('lead').innerHTML = 'No se te cobró nada. Podés intentar de nuevo desde <a href="/#precio">la página de compra</a> o escribirnos si el problema sigue.';
