@@ -273,6 +273,35 @@
   }
   const ig = document.getElementById('ig-link');
   if (IG_URL) { ig.href = IG_URL; ig.target = '_blank'; } else ig.style.display = 'none';
+
+  // EMBUDO (2026-10-23): cuenta visita -> clic en Suscribirme -> gracias, por
+  // origen, en el Worker de avisos (marketing/avisos/visitas.js lo muestra).
+  // Sin cookies ni datos personales: el origen se recuerda 7 dias en este
+  // navegador solo para atribuir la suscripcion cuando vuelve de Mercado Pago.
+  const CONTADOR = 'https://payjump-avisos.scheinka.workers.dev/v';
+  function contar(p, o) { try { navigator.sendBeacon(CONTADOR, JSON.stringify({ p, o })); } catch (_) {} }
+  const origen = (function () {
+    const desde = new URLSearchParams(location.search).get('desde');
+    const ref = document.referrer || '';
+    if (desde === 'instagram' || /instagram\./i.test(ref)) return 'instagram';
+    if (/google\./i.test(ref)) return 'google';
+    if (ref && ref.indexOf(location.host) < 0) return 'otro';
+    return 'directo';
+  })();
+  let origenGuardado = origen;
+  try {
+    const prev = JSON.parse(localStorage.getItem('pj_origen') || 'null');
+    const vigente = prev && Date.now() - prev.t < 7 * 864e5;
+    // Una visita directa no pisa un origen reciente: el que vino de Instagram
+    // y vuelve tipeando la direccion sigue contando como Instagram.
+    if (origen !== 'directo' || !vigente) localStorage.setItem('pj_origen', JSON.stringify({ o: origen, t: Date.now() }));
+    else origenGuardado = prev.o;
+  } catch (_) {}
+  contar('/', origen);
+  pagar.addEventListener('click', () => contar('/checkout', origenGuardado));
+  // Sacar ?desde= de la barra: si alguien copia el link y lo comparte, la
+  // visita del otro no tiene que contar como Instagram.
+  if (new URLSearchParams(location.search).has('desde')) { try { history.replaceState(null, '', location.pathname + location.hash); } catch (_) {} }
 </script>
 </body>
 </html>

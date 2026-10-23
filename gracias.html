@@ -65,6 +65,18 @@
   } else if (estado === 'rejected' || estado === 'failure' || estado === 'cancelled') {
     document.getElementById('titulo').textContent = 'La suscripción no se pudo completar.';
     document.getElementById('lead').innerHTML = 'No se te cobró nada. Podés intentar de nuevo desde <a href="/#precio">la página de compra</a> o escribirnos si el problema sigue.';
+  } else {
+    // Embudo (2026-10-23, ver index.html): una suscripcion que volvio de
+    // Mercado Pago, atribuida al origen guardado. Una vez por pestaña, para
+    // que recargar no cuente dos.
+    try {
+      if (!sessionStorage.getItem('pj_contada')) {
+        const prev = JSON.parse(localStorage.getItem('pj_origen') || 'null');
+        const o = prev && Date.now() - prev.t < 7 * 864e5 ? prev.o : 'directo';
+        navigator.sendBeacon('https://payjump-avisos.scheinka.workers.dev/v', JSON.stringify({ p: '/gracias', o }));
+        sessionStorage.setItem('pj_contada', '1');
+      }
+    } catch (_) {}
   }
 </script>
 </body>
