@@ -9,7 +9,9 @@
      Suscripcion (marketing/mercadopago/crear_suscripcion.js, 2026-10-22): el plan
      vuelve a /gracias.html?tipo=suscripcion y MP puede agregar preapproval_id.
      Pago unico (crear_checkout.js, 2026-10-21): MP agrega collection_id,
-     collection_status, payment_id, status, external_reference, etc. -->
+     collection_status, payment_id, status, external_reference, etc.
+     Paddle (cobro en dolares, 2026-10-25): el checkout de la landing vuelve a
+     /gracias.html?tipo=suscripcion&medio=paddle. -->
 <style>
   :root { --surface: #141823; --surface-2: #1b2030; --text: #F4F5F7; --text-2: #B4C2D4; --gold: #FBBF24; --border: #232938; }
   body { margin: 0; background: var(--surface); color: var(--text); font: 16px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
@@ -66,6 +68,11 @@
     document.getElementById('titulo').textContent = 'La suscripción no se pudo completar.';
     document.getElementById('lead').innerHTML = 'No se te cobró nada. Podés intentar de nuevo desde <a href="/#precio">la página de compra</a> o escribirnos si el problema sigue.';
   } else {
+    if (q.get('medio') === 'paddle') {
+      document.getElementById('lead').innerHTML = 'Dentro de las próximas <strong>24 horas hábiles</strong> te llega el instalador al mail que pusiste al pagar.';
+      document.getElementById('pasos').children[2].textContent = 'La app te pide el mail que pusiste al pagar, te manda un código de 6 dígitos, lo pegás y listo. Funciona en una computadora a la vez: si cambiás de PC, la activás en la nueva.';
+      document.getElementById('pie').innerHTML = 'Si pasadas las 24 horas hábiles no te llegó nada, revisá Spam y escribinos a <a href="mailto:support@payjumppoker.com">support@payjumppoker.com</a> desde el mail con el que te suscribiste. Podés cancelar cuando quieras desde el link que viene en el recibo de Paddle.';
+    }
     // Embudo (2026-10-23, ver index.html): una suscripcion que volvio de
     // Mercado Pago, atribuida al origen guardado. Una vez por pestaña, para
     // que recargar no cuente dos.

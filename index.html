@@ -209,7 +209,7 @@
       <div class="eyebrow">Precio de lanzamiento</div>
       <div class="price" id="precio-valor">ARS 15.000 <span style="font-size:.45em;font-weight:600;opacity:.8;">/ mes</span></div>
       <div class="muted">Suscripción mensual. Cancelás cuando quieras, desde tu cuenta de Mercado Pago.</div>
-      <div class="muted" id="precio-usd" style="margin-top:6px;">Fuera de Argentina: <strong>USD 13 / mes</strong>, impuestos incluidos, con tarjeta internacional (próximamente).</div>
+      <div class="muted" id="precio-usd" style="margin-top:6px;">Fuera de Argentina: <strong>USD 13 / mes</strong>, impuestos incluidos, con tarjeta internacional o PayPal.</div>
       <ul>
         <li>Licencia personal, una computadora a la vez. Si cambiás de PC, la activás en la nueva con tu mail.</li>
         <li><strong>Todas las versiones nuevas incluidas</strong> mientras estés suscripto.</li>
@@ -218,8 +218,9 @@
       </ul>
       <p class="soft">Es el precio de lanzamiento: va a subir cuando salga la versión siguiente. Quien se suscribe ahora conserva este precio mientras no cancele.</p>
       <a class="btn btn-gold" id="btn-pagar" href="#" aria-disabled="true">Suscribirme con Mercado Pago</a>
+      <a class="btn btn-ghost" id="btn-pagar-usd" href="#" aria-disabled="true" style="margin-top:10px;">Pagar en dólares (USD 13)</a>
       <div class="after-pay">
-        <strong>Después de suscribirte:</strong> dentro de las 24 horas hábiles te llega un mail con el instalador. Lo instalás, ponés el mail de tu cuenta de Mercado Pago, pegás el código que te mandamos, y listo. Si pasado ese plazo no recibiste nada, revisá Spam y escribinos a <a id="mail-link" href="#">el mail de soporte</a>.
+        <strong>Después de suscribirte:</strong> dentro de las 24 horas hábiles te llega un mail con el instalador. Lo instalás, ponés el mail con el que pagaste, pegás el código que te mandamos, y listo. Si pasado ese plazo no recibiste nada, revisá Spam y escribinos a <a id="mail-link" href="#">el mail de soporte</a>.
       </div>
     </div>
   </div>
@@ -235,7 +236,7 @@
     <details><summary>¿De dónde salen los rangos?</summary><p>De rangos de referencia por posición y stack (chip-EV, Nash para push/fold), ajustados por ICM y bounty, y contrastados contra cómo juega el campo real. Podés ver el chart que juzgó cada mano, y editarlo si seguís otra escuela.</p></details>
     <details><summary>Windows dice "protegió su PC" al instalar</summary><p>Es porque el instalador todavía no tiene firma digital, no porque haya algo malo adentro. Click en <em>Más información</em> y después en <em>Ejecutar de todas formas</em>.</p></details>
     <details><summary>¿Cómo recibo el programa?</summary><p>Con el link de descarga que te mandamos por mail dentro de las 24 horas hábiles de confirmada la suscripción. Cada versión nueva te llega al mismo mail.</p></details>
-    <details><summary>¿Qué pasa si cancelo?</summary><p>La cancelás desde tu cuenta de Mercado Pago, sin escribirnos. Cuando termina el mes que ya pagaste, la app deja de analizar; tus manos y tu progreso quedan en tu PC, y si volvés a suscribirte seguís donde estabas.</p></details>
+    <details><summary>¿Qué pasa si cancelo?</summary><p>La cancelás sin escribirnos: desde tu cuenta de Mercado Pago, o desde el link del recibo de Paddle si pagás en dólares. Cuando termina el mes que ya pagaste, la app deja de analizar; tus manos y tu progreso quedan en tu PC, y si volvés a suscribirte seguís donde estabas.</p></details>
     <details><summary>¿Qué pasa si se corta internet?</summary><p>La app sigue funcionando hasta 30 días sin conexión. Después pide conectarse una vez para confirmar que la suscripción está al día.</p></details>
     <details><summary>¿Qué pasa con mis manos?</summary><p>Se quedan en tu PC, en una base local. No subimos manos a ningún servidor ni hay cuenta ni login: lo único que viaja es tu mail y un código de tu equipo, para validar la suscripción.</p></details>
   </div>
@@ -304,6 +305,47 @@
   // Sacar ?desde= de la barra: si alguien copia el link y lo comparte, la
   // visita del otro no tiene que contar como Instagram.
   if (new URLSearchParams(location.search).has('desde')) { try { history.replaceState(null, '', location.pathname + location.hash); } catch (_) {} }
+
+  // PAGO EN DOLARES (Paddle, 2026-10-25). Paddle.js se carga SOLO al tocar el
+  // boton o cuando se llega con un link de pago de Paddle (?_ptxn=..., que es
+  // el "default payment link" del panel apuntando a esta pagina): la politica
+  // de privacidad dice que el sitio no carga terceros en una visita comun.
+  // El token es el client-side token "live_..." del panel (no es secreto);
+  // vacio = el boton dice "proximamente" y no hace nada.
+  const PADDLE_TOKEN = 'live_662d1f04dc132d9a0560bb8b3b0';
+  const PADDLE_PRICE = 'pri_01m5sqp7xsnethymt7wqwx7jdn';   // USD 13 mensual, impuestos incluidos
+  let paddleListo = null;
+  function cargarPaddle() {
+    if (!paddleListo) paddleListo = new Promise((ok, mal) => {
+      const s = document.createElement('script');
+      s.src = 'https://cdn.paddle.com/paddle/v2/paddle.js';
+      s.onload = () => { try { Paddle.Initialize({ token: PADDLE_TOKEN }); ok(); } catch (e) { mal(e); } };
+      s.onerror = () => { paddleListo = null; mal(new Error('paddle.js')); };
+      document.head.appendChild(s);
+    });
+    return paddleListo;
+  }
+  const pagarUsd = document.getElementById('btn-pagar-usd');
+  if (PADDLE_TOKEN) {
+    pagarUsd.removeAttribute('aria-disabled');
+    pagarUsd.addEventListener('click', async (e) => {
+      e.preventDefault();
+      contar('/checkout', origenGuardado);
+      try {
+        await cargarPaddle();
+        Paddle.Checkout.open({
+          items: [{ priceId: PADDLE_PRICE, quantity: 1 }],
+          settings: { displayMode: 'overlay', locale: 'es', successUrl: location.origin + '/gracias.html?tipo=suscripcion&medio=paddle' }
+        });
+      } catch (_) {
+        pagarUsd.textContent = 'No se pudo abrir el pago. Probá de nuevo';
+      }
+    });
+    if (new URLSearchParams(location.search).has('_ptxn')) cargarPaddle().catch(() => {});
+  } else {
+    pagarUsd.textContent = 'Pagar en dólares (próximamente)';
+    pagarUsd.addEventListener('click', (e) => e.preventDefault());
+  }
 </script>
 </body>
 </html>
