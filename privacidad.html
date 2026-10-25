@@ -11,7 +11,10 @@
      que la app o el Worker guardan o mandan, esta pagina se actualiza con el
      cambio. Fuentes: services/Licencia.js (lo unico que la app manda afuera),
      marketing/avisos/worker.js (licencias, avisos de pago, contador de visitas)
-     y el script del contador en index.html. -->
+     y el script del contador en index.html.
+     2026-10-25: Paddle (cobro en dolares) se nombra ANTES de que el Worker lo
+     consulte, porque la revision de dominio de Paddle la lee; cuando se sume
+     el adaptador, verificar que lo que recibe coincida con lo que dice aca. -->
 <style>
   :root { --surface: #141823; --surface-2: #1b2030; --text: #F4F5F7; --text-2: #B4C2D4; --gold: #FBBF24; --border: #232938; }
   body { margin: 0; background: var(--surface); color: var(--text); font: 16px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
@@ -34,14 +37,14 @@
 <main class="wrap">
   <a class="brand" href="/">Pay<b>jump</b></a>
   <h1>Política de privacidad</h1>
-  <p class="soft">Última actualización: 24 de octubre de 2026</p>
+  <p class="soft">Última actualización: 25 de octubre de 2026</p>
 
   <div class="card">
     <p><strong>En corto:</strong> tus manos, tu base de PokerTracker y tus estadísticas no salen de tu computadora. Lo único que Payjump manda afuera es lo necesario para activar y renovar tu licencia: tu mail y un código anónimo de equipo.</p>
   </div>
 
   <h2>Quiénes somos</h2>
-  <p>Payjump es un software de entrenamiento de poker para torneos, desarrollado y operado desde Argentina. Para cualquier consulta sobre esta política o sobre tus datos, escribinos a <a href="mailto:support@payjumppoker.com">support@payjumppoker.com</a>.</p>
+  <p>Payjump es un software de entrenamiento de poker para torneos, desarrollado y operado desde Argentina por Alan Demian Scheinkman. Para cualquier consulta sobre esta política o sobre tus datos, escribinos a <a href="mailto:support@payjumppoker.com">support@payjumppoker.com</a>.</p>
 
   <h2>Lo que queda en tu computadora</h2>
   <p>La app funciona de forma local. Lo siguiente se guarda sólo en tu equipo y <strong>nunca se envía a nosotros ni a terceros</strong>:</p>
@@ -59,10 +62,11 @@
     <li><strong>Un código de equipo</strong> de 8 caracteres (por ejemplo, <code>ABCD-2345</code>). Se calcula en tu computadora a partir de su identificador de Windows con una función irreversible: no permite saber quién sos ni qué equipo tenés, sólo distinguir una computadora de otra. Lo usamos para que la suscripción funcione en una computadora a la vez.</li>
   </ul>
   <p>Mientras la app está abierta, renueva la licencia periódicamente enviando la clave de licencia (que contiene tu mail y el código de equipo) y el código de equipo.</p>
-  <p>Con tu mail consultamos en Mercado Pago si tenés una suscripción activa. No tenemos acceso a los datos de tu tarjeta ni de tu cuenta de Mercado Pago más allá del estado de la suscripción, el monto y las fechas de cobro.</p>
+  <p>Con tu mail consultamos en Mercado Pago, o en Paddle si pagaste en dólares, si tenés una suscripción activa. No tenemos acceso a los datos de tu tarjeta ni de tu cuenta más allá del estado de la suscripción, el monto y las fechas de cobro.</p>
 
   <h2>Lo que recibimos cuando te suscribís</h2>
   <p>El pago lo procesa <strong>Mercado Pago</strong>, bajo su propia política de privacidad. Cuando se aprueba un cobro, Mercado Pago nos avisa y recibimos el mail de la cuenta, el monto, el estado del pago y de la suscripción. Lo usamos para mandarte el mail de bienvenida, enviarte el instalador y atender consultas.</p>
+  <p>Si pagás en dólares, la compra la procesa <strong>Paddle.com</strong>, nuestro revendedor y Merchant of Record, bajo su propia <a href="https://www.paddle.com/legal/privacy" rel="noopener">política de privacidad</a>. Paddle recibe los datos de pago y el país que necesita para cobrar y calcular impuestos; nosotros recibimos de Paddle lo mismo que de Mercado Pago: tu mail, el monto y el estado del pago y de la suscripción.</p>
 
   <h2>El sitio web</h2>
   <ul>
@@ -74,7 +78,8 @@
   <h2>Con quién se comparten los datos</h2>
   <p>No vendemos ni cedemos tus datos. Sólo intervienen los proveedores que necesitamos para operar, cada uno para su función:</p>
   <ul>
-    <li><strong>Mercado Pago</strong>: cobro de la suscripción.</li>
+    <li><strong>Mercado Pago</strong>: cobro de la suscripción en pesos.</li>
+    <li><strong>Paddle</strong>: cobro de la suscripción en dólares, como revendedor y Merchant of Record.</li>
     <li><strong>Cloudflare</strong>: aloja el servidor de licencias y el contador de visitas.</li>
     <li><strong>Resend</strong>: envío de los mails (código de activación, bienvenida, avisos).</li>
     <li><strong>Porkbun y Google</strong>: recepción de los mails que nos escribís y de los avisos de cobro.</li>
@@ -103,7 +108,7 @@
   <h2>Cambios en esta política</h2>
   <p>Si cambia lo que hacemos con tus datos, actualizamos esta página y la fecha de arriba. Si el cambio es importante, te avisamos por mail.</p>
 
-  <p class="soft" style="margin-top:40px"><a href="/">Volver a Payjump</a></p>
+  <p class="soft" style="margin-top:40px"><a href="terminos.html">Términos y condiciones</a> · <a href="reembolsos.html">Política de reembolsos</a> · <a href="/">Volver a Payjump</a></p>
 </main>
 </body>
 </html>
