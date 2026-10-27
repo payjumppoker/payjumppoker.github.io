@@ -84,6 +84,13 @@
   .card h3 { margin-bottom: 6px; }
   .card p { margin: 0; color: var(--text-2); font-size: 15px; }
 
+  /* estudio (2026-10-27) */
+  .cifras { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); margin: 22px 0 28px; }
+  .cifra { background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 18px; }
+  .cifra b { display: block; font-size: 30px; color: var(--gold); line-height: 1.1; }
+  .cifra span { color: var(--text-2); font-size: 14px; }
+  .shot { border: 1px solid var(--surface-3); border-radius: 10px; }
+
   /* pricing */
   .price-card { background: var(--surface-2); border: 1px solid var(--gold); border-radius: var(--radius);
     padding: 28px; max-width: 520px; margin: 0 auto; text-align: center; }
@@ -112,6 +119,7 @@
     <a class="brand" href="#"><b>Payjump</b></a>
     <ul>
       <li><a href="#como">Cómo funciona</a></li>
+      <li><a href="#estudio">Plan de estudio</a></li>
       <li><a href="#que">Qué incluye</a></li>
       <li><a href="#faq">Preguntas</a></li>
       <li><a href="#precio" class="btn btn-gold" style="padding:8px 14px; font-size:14px;">Comprar</a></li>
@@ -181,6 +189,28 @@
   </div>
 </section>
 
+<!-- PLAN DE ESTUDIO (2026-10-27): el sitio contaba el estudio sólo como accesorio
+     del diagnóstico. Acá va corto; el detalle vive en estudio.html. Las cifras salen
+     del producto: 30 módulos (Teoría -> "Todos los módulos"), 230 preguntas (censo del
+     curriculum), 1.418 spots (TrainerSpotGenerator.getPool()). Las capturas las saca
+     e2e/capturas-estudio.spec.js. -->
+<section id="estudio">
+  <div class="wrap">
+    <h2>Un plan de estudio, con o sin manos cargadas</h2>
+    <p class="muted" style="max-width:760px;">Desde el primer día podés estudiar: 30 módulos ordenados de Recreational a Professional, cada uno con su teoría, preguntas de repaso, drills y un simulador que te corrige al instante. Cuando analizás tus manos, el plan se ordena por tus errores.</p>
+    <div class="cifras">
+      <div class="cifra"><b>30</b><span>módulos de teoría</span></div>
+      <div class="cifra"><b>230</b><span>preguntas de repaso</span></div>
+      <div class="cifra"><b>+1.400</b><span>spots de práctica</span></div>
+      <div class="cifra"><b>4</b><span>etapas, de Recreational a Professional</span></div>
+    </div>
+    <img class="shot" src="img/estudio-modulo.png" alt="Un módulo de teoría: el camino de aprendizaje paso por paso y el estándar para graduarse" loading="lazy">
+    <div class="cta-row" style="margin-top:22px;">
+      <a class="btn btn-ghost" href="estudio.html">Ver el plan de estudio completo</a>
+    </div>
+  </div>
+</section>
+
 <section id="que">
   <div class="wrap">
     <h2>Qué incluye</h2>
@@ -192,6 +222,9 @@
       <div class="card"><h3>Tu nivel contra el pool</h3><p>Tus stats comparadas contra cómo juega el campo a tu buy-in, medido sobre 1,6 millones de manos de rivales.</p></div>
       <div class="card"><h3>Tus manos no salen de tu PC</h3><p>No se conecta a la sala. Lo único que consulta por internet, una vez por día, es si tu suscripción está al día. Cerrala antes de sentarte a jugar.</p></div>
     </div>
+    <!-- MAC: el instalador existe (mac.sh, docs/INSTALADOR.md) pero NO se anuncia
+         como oficial: decision del usuario 2026-10-27, todavia es muy manual. Hasta
+         que el diga, la landing dice solo Windows y Mac queda "a pedido". -->
     <h3 style="margin-top:36px;">Compatibilidad</h3>
     <div class="pills">
       <span class="pill">Windows 10 / 11</span>
@@ -231,6 +264,7 @@
     <h2>Preguntas frecuentes</h2>
     <details><summary>¿Me puede traer problemas con la sala?</summary><p>La app no se conecta a la sala, no lee la mesa en vivo y no modifica nada: analiza los archivos de manos que la sala ya guarda en tu disco, después de jugar. Igual, varias salas miran qué programas tenés abiertos mientras jugás. Por eso la app corre en una ventana visible: cerrala antes de sentarte a jugar.</p></details>
     <details><summary>¿Es un juego o una sala de apuestas?</summary><p>No. Payjump es un software de estudio: no se juega, no se apuesta dinero y no hay premios. Analiza las manos que ya jugaste en tu sala y te arma ejercicios para corregir tus errores.</p></details>
+    <details><summary>¿Sirve si todavía no tengo manos cargadas?</summary><p>Sí. El plan de estudio, la teoría, las preguntas, el simulador y los drills funcionan desde el primer día. El diagnóstico y el calentamiento necesitan tus manos: cuando las analizás, el plan se ordena por los errores que más fichas te cuestan.</p></details>
     <details><summary>¿Necesito PokerTracker o Hold'em Manager?</summary><p>No. Lee las manos directo de las carpetas donde tu sala las guarda. Si ya usás PokerTracker 4, podés analizar desde su base en vez de importar; es opcional.</p></details>
     <details><summary>¿Sirve para cash games?</summary><p>No. Está hecho para torneos: stacks cortos, push/fold, ICM en burbuja y mesa final, bounties. Un rango de cash a 100bb no es lo que vas a jugar en un torneo.</p></details>
     <details><summary>¿De dónde salen los rangos?</summary><p>De rangos de referencia por posición y stack (chip-EV, Nash para push/fold), ajustados por ICM y bounty, y contrastados contra cómo juega el campo real. Podés ver el chart que juzgó cada mano, y editarlo si seguís otra escuela.</p></details>

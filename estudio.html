@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- PLAN DE ESTUDIO (2026-10-27). La home lo resume en #estudio; esta pagina es el
+     detalle. Todo lo que afirma sale del producto, no de criterio:
+     - 30 modulos y sus nombres: public/theory-curriculum.js (MODULES, sin la bienvenida).
+     - las 4 etapas y lo que pide cada una: public/study-roadmap.js (STAGES).
+     - graduacion 80% en 6 / 75% en 10, ultimos 20 intentos, test-out de 3 seguidos:
+       public/study-roadmap.js y public/coach-plan.js.
+     - 230 preguntas (censo del curriculum) y 1.418 spots (TrainerSpotGenerator.getPool()).
+     Si cambia alguno, cambia aca. Las capturas: e2e/capturas-estudio.spec.js. -->
+<title>Plan de estudio · Payjump</title>
+<meta name="description" content="30 módulos de teoría para torneos, de Recreational a Professional: preguntas de repaso, simulador con veredicto al instante y más de 1.400 spots de práctica. Sirve desde el primer día, sin manos cargadas.">
+<meta property="og:title" content="Payjump — un plan de estudio para torneos">
+<meta property="og:description" content="30 módulos, de Recreational a Professional. Teoría, quiz, simulador y drills. Sin manos cargadas desde el primer día.">
+<meta property="og:image" content="https://payjumppoker.com/img/estudio-modulo.png">
+<meta property="og:url" content="https://payjumppoker.com/estudio.html">
+<link rel="canonical" href="https://payjumppoker.com/estudio.html">
+<meta property="og:type" content="website">
+<style>
+  :root {
+    --surface: #141823; --surface-2: #1b2030; --surface-3: #232938;
+    --text: #F4F5F7; --text-2: #B4C2D4; --text-soft: #8593a8;
+    --gold: #FBBF24; --amber: #F59E0B; --border: #232938;
+    --raise: #F03C3C; --call: #5AB966;
+    --radius: 14px; --maxw: 1080px;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--surface); color: var(--text);
+    font: 16px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  a { color: var(--gold); }
+  img, video { max-width: 100%; display: block; }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 16px; }
+  h1, h2, h3 { line-height: 1.15; letter-spacing: -0.01em; margin: 0 0 12px; }
+  h1 { font-size: clamp(32px, 5vw, 54px); }
+  h2 { font-size: clamp(24px, 3.4vw, 34px); }
+  h3 { font-size: 19px; }
+  p { margin: 0 0 12px; }
+  .muted { color: var(--text-2); }
+  .soft { color: var(--text-soft); font-size: 14px; }
+  section { padding: 64px 0; border-top: 1px solid var(--border); }
+
+  /* nav */
+  nav { position: sticky; top: 0; z-index: 10; background: rgba(20,24,35,.92);
+    backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); }
+  nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 58px; }
+  .brand { font-weight: 800; letter-spacing: -0.02em; color: var(--text); text-decoration: none; font-size: 18px; }
+  .brand b { color: var(--gold); }
+  nav ul { display: flex; gap: 18px; list-style: none; margin: 0; padding: 0; }
+  nav ul a { color: var(--text-2); text-decoration: none; font-size: 14px; }
+  nav ul a:hover { color: var(--text); }
+  @media (max-width: 640px) { nav ul li:not(:last-child) { display: none; } }
+
+  /* buttons */
+  .btn { display: inline-block; padding: 13px 22px; border-radius: 10px; font-weight: 700;
+    text-decoration: none; border: 1px solid transparent; cursor: pointer; font-size: 16px; }
+  .btn-gold { background: var(--gold); color: #141823; }
+  .btn-gold:hover { background: var(--amber); }
+  .btn-ghost { background: transparent; color: var(--text); border-color: var(--surface-3); }
+  .btn-ghost:hover { border-color: var(--text-soft); }
+  .btn[aria-disabled="true"] { opacity: .55; cursor: not-allowed; }
+
+  /* hero */
+  .hero { padding: 64px 0 40px; border-top: 0; }
+  .hero .wrap { display: grid; gap: 28px; }
+  .eyebrow { color: var(--gold); font-weight: 700; text-transform: uppercase; letter-spacing: .08em; font-size: 13px; }
+  .lead { font-size: clamp(17px, 2vw, 21px); color: var(--text-2); max-width: 720px; }
+  .cta-row { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+  .video-frame { border: 1px solid var(--surface-3); border-radius: var(--radius); overflow: hidden;
+    background: #000; box-shadow: 0 20px 60px rgba(0,0,0,.45); }
+  .video-frame video { width: 100%; aspect-ratio: 16/9; }
+
+  /* steps */
+  .steps { display: grid; gap: 40px; }
+  .step { display: grid; gap: 18px; align-items: center; }
+  @media (min-width: 820px) {
+    .step { grid-template-columns: 1fr 1.4fr; }
+    .step:nth-child(even) .step-text { order: 2; }
+  }
+  .step img { border: 1px solid var(--surface-3); border-radius: 10px; }
+  .num { display: inline-grid; place-items: center; width: 34px; height: 34px; border-radius: 50%;
+    background: var(--gold); color: #141823; font-weight: 800; margin-bottom: 10px; }
+
+  /* features */
+  .grid { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+  .card { background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; }
+  .card h3 { margin-bottom: 6px; }
+  .card p { margin: 0; color: var(--text-2); font-size: 15px; }
+
+  /* estudio (2026-10-27) */
+  .cifras { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); margin: 22px 0 28px; }
+  .cifra { background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 18px; }
+  .cifra b { display: block; font-size: 30px; color: var(--gold); line-height: 1.1; }
+  .cifra span { color: var(--text-2); font-size: 14px; }
+  .shot { border: 1px solid var(--surface-3); border-radius: 10px; }
+
+  /* pricing */
+  .price-card { background: var(--surface-2); border: 1px solid var(--gold); border-radius: var(--radius);
+    padding: 28px; max-width: 520px; margin: 0 auto; text-align: center; }
+  .price { font-size: 48px; font-weight: 800; color: var(--gold); line-height: 1; margin: 8px 0 4px; }
+  .price-card ul { text-align: left; margin: 18px auto; padding-left: 20px; color: var(--text-2); max-width: 380px; }
+  .price-card ul li { margin: 6px 0; }
+  .after-pay { background: var(--surface-3); border-radius: 10px; padding: 12px 14px; font-size: 14px; color: var(--text-2); margin-top: 16px; text-align: left; }
+
+  /* compat */
+  .pills { display: flex; flex-wrap: wrap; gap: 8px; }
+  .pill { background: var(--surface-3); border-radius: 999px; padding: 6px 12px; font-size: 14px; }
+
+  /* faq */
+  details { border: 1px solid var(--border); border-radius: 10px; padding: 12px 16px; margin-bottom: 10px; background: var(--surface-2); }
+  summary { cursor: pointer; font-weight: 700; }
+  details p { margin: 10px 0 0; color: var(--text-2); }
+
+  footer { padding: 36px 0; border-top: 1px solid var(--border); color: var(--text-soft); font-size: 14px; }
+  footer .wrap { display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between; }
+</style>
+<style>
+  /* propio de esta pagina */
+  .cifras { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); margin: 6px 0 0; }
+  .cifra { background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 18px; }
+  .cifra b { display: block; font-size: 30px; color: var(--gold); line-height: 1.1; }
+  .cifra span { color: var(--text-2); font-size: 14px; }
+  .shot { border: 1px solid var(--surface-3); border-radius: 10px; }
+  .etapas { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); margin: 22px 0 28px; }
+  .etapa .n { color: var(--gold); font-weight: 800; font-size: 13px; letter-spacing: .08em; text-transform: uppercase; }
+  .modulos { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); margin-top: 22px; }
+  .modulos ul { margin: 8px 0 0; padding-left: 18px; color: var(--text-2); font-size: 15px; }
+  .modulos li { margin: 3px 0; }
+  .modulos h3 small { color: var(--text-soft); font-weight: 600; font-size: 14px; }
+  /* Las capturas de estudio son anchas (drills, quiz): en la columna de 1.4fr
+     de la home quedaban ilegibles. Aca van a todo el ancho, con el texto arriba. */
+  .steps.ancho .step { grid-template-columns: 1fr; gap: 14px; }
+  .steps.ancho .step-text { max-width: 760px; }
+  .steps.ancho .step img { justify-self: start; }
+  .steps.ancho .step:nth-child(even) .step-text { order: 0; }
+  .dos { display: grid; gap: 22px; align-items: center; }
+  @media (min-width: 820px) { .dos { grid-template-columns: 1fr 1.4fr; } }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="brand" href="index.html"><b>Payjump</b></a>
+    <ul>
+      <li><a href="index.html#como">Cómo funciona</a></li>
+      <li><a href="#modulos">Módulos</a></li>
+      <li><a href="index.html#faq">Preguntas</a></li>
+      <li><a href="index.html#precio" class="btn btn-gold" style="padding:8px 14px; font-size:14px;">Comprar</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div>
+      <div class="eyebrow">Plan de estudio · Torneos MTT y PKO</div>
+      <h1>Estudiá torneos con un orden, no con videos sueltos.</h1>
+      <p class="lead">30 módulos que van de Recreational a Professional. Cada uno trae su teoría, preguntas de repaso, drills y un simulador que te corrige en el momento. Sirve desde el primer día, sin manos cargadas; cuando analizás las tuyas, el plan se ordena por tus errores.</p>
+      <div class="cta-row">
+        <a class="btn btn-gold" href="index.html#precio">Ver precio y suscribirme</a>
+        <a class="btn btn-ghost" href="index.html#como">Cómo encuentra tus errores</a>
+      </div>
+    </div>
+    <div class="cifras">
+      <div class="cifra"><b>30</b><span>módulos de teoría</span></div>
+      <div class="cifra"><b>230</b><span>preguntas de repaso</span></div>
+      <div class="cifra"><b>+1.400</b><span>spots de práctica</span></div>
+      <div class="cifra"><b>4</b><span>etapas, de Recreational a Professional</span></div>
+    </div>
+  </div>
+</header>
+
+<section id="etapas">
+  <div class="wrap">
+    <h2>Cuatro etapas, y qué falta para la siguiente</h2>
+    <p class="muted" style="max-width:760px;">El plan te ubica en una etapa y te muestra qué pide la siguiente y con qué prueba se pasa. No alcanza con saberlo: tiene que salirte en una sesión real.</p>
+    <div class="etapas">
+      <div class="card etapa"><div class="n">1</div><h3>Recreational</h3><p>Hábitos preflop estables: qué abrir desde cada asiento, cortar los calls dominados y la agresión al azar.</p></div>
+      <div class="card etapa"><div class="n">2</div><h3>Solid Reg</h3><p>Del chart memorizado a la ejecución: defensa contra opens y 3-bets, y la guerra de ciegas con frecuencias limpias.</p></div>
+      <div class="card etapa"><div class="n">3</div><h3>Advanced Reg</h3><p>Los spots de presión: 3-bet, squeeze, el paso de un stack a otro, y una razón detrás de cada decisión.</p></div>
+      <div class="card etapa"><div class="n">4</div><h3>Professional</h3><p>Un sistema que aguanta volumen: frecuencias sostenidas, revisión semanal y ajustes por formato sin perder la base.</p></div>
+    </div>
+    <img class="shot" src="img/estudio-etapas.png" alt="Roadmap de progresión: la etapa actual y lo que pide la siguiente" loading="lazy">
+  </div>
+</section>
+
+<section id="modulos">
+  <div class="wrap">
+    <h2>Qué cubren los 30 módulos</h2>
+    <p class="muted" style="max-width:760px;">Preflop, postflop y lo propio del torneo. Todos con los números del mismo chart que después juzga tus manos.</p>
+    <div class="modulos">
+      <div class="card"><h3>Base preflop <small>· 7</small></h3><ul>
+        <li>Open por posición (RFI)</li><li>Tamaño del open</li><li>Defensa de la ciega grande</li>
+        <li>Ciega chica contra ciega grande</li><li>Defensa de la BB contra la SB</li><li>Defensa contra el limp entre ciegas</li>
+        <li>Guerra de ciegas en buy-ins bajos</li></ul></div>
+      <div class="card"><h3>Presión preflop <small>· 6</small></h3><ul>
+        <li>3-bet</li><li>Defensa contra 3-bet</li><li>4-bet</li><li>Defensa contra 4-bet</li>
+        <li>Squeeze</li><li>Cold call: cuándo pagar un open</li></ul></div>
+      <div class="card"><h3>Stack corto <small>· 3</small></h3><ul>
+        <li>Push/fold con 12bb o menos</li><li>Con 15bb, antes del push/fold</li><li>Con 25bb, la transición a corto</li></ul></div>
+      <div class="card"><h3>Postflop <small>· 8</small></h3><ul>
+        <li>C-bet de flop</li><li>C-bet en pote de 3-bet</li><li>Segundo barril</li><li>Apuesta en river</li>
+        <li>Potes multiway</li><li>Value bet thin</li><li>Bluff-catching</li><li>Blockers</li></ul></div>
+      <div class="card"><h3>Lo propio del torneo <small>· 4</small></h3><ul>
+        <li>ICM en la burbuja</li><li>ICM en mesa final</li><li>Bounty (PKO)</li><li>Heads-up</li></ul></div>
+      <div class="card"><h3>Matemática de la decisión <small>· 2</small></h3><ul>
+        <li>Pot odds y EV</li><li>EV aplicado a la decisión</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<section id="como-se-estudia">
+  <div class="wrap">
+    <h2>Cada módulo, cuatro formas de estudiarlo</h2>
+    <div class="steps ancho" style="margin-top:28px;">
+      <div class="step">
+        <div class="step-text">
+          <div class="num">1</div>
+          <h3>Teoría</h3>
+          <p class="muted">El camino del módulo, paso por paso: por qué importa, cómo piensa un pro, los rangos por stack y por posición, y los errores comunes. Con los números del chart, no con reglas de memoria.</p>
+        </div>
+        <img src="img/estudio-modulo.png" alt="Módulo de push/fold: el camino de aprendizaje y el estándar para graduarse" loading="lazy">
+      </div>
+      <div class="step">
+        <div class="step-text">
+          <div class="num">2</div>
+          <h3>Preguntas de repaso</h3>
+          <p class="muted">Preguntas cortas para fijar el concepto antes de jugar spots. Cada respuesta trae su porqué, la aciertes o no.</p>
+        </div>
+        <img src="img/estudio-quiz.png" alt="Pregunta de repaso respondida, con la explicación" loading="lazy">
+      </div>
+      <div class="step">
+        <div class="step-text">
+          <div class="num">3</div>
+          <h3>Simulador</h3>
+          <p class="muted">La mesa, tu mano y la decisión. El veredicto sale del chart en el momento, con el rango a un click.</p>
+        </div>
+        <img src="img/estudio-simulador.png" alt="Simulador de spots con el veredicto al lado de la mesa" loading="lazy">
+      </div>
+      <div class="step">
+        <div class="step-text">
+          <div class="num">4</div>
+          <h3>Drills</h3>
+          <p class="muted">Más de 1.400 spots para practicar por posición, stack y tipo de spot, en tres contextos: sin ICM, en la burbuja y en mesa final.</p>
+        </div>
+        <img src="img/estudio-drills.png" alt="Catálogo de drills por posición y stack, con los contextos de burbuja y mesa final" loading="lazy">
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="graduarse">
+  <div class="wrap dos">
+    <div>
+      <h2>Un módulo se gradúa acertando, no leyendo</h2>
+      <p class="muted">Para graduar un módulo tenés que acertar el 80% de las preguntas en al menos 6 intentos y el 75% de los spots del simulador en al menos 10. Cuentan tus últimos 20 intentos, no el acumulado: lo que importa es cómo estás jugando hoy.</p>
+      <p class="muted">Si ya lo dominás, rendís el test-out: 3 spots seguidos sin fallar. Y los spots que fallás vuelven más adelante, en repasos espaciados.</p>
+    </div>
+    <img class="shot" src="img/estudio-graduacion.png" alt="Checklist de graduación de un módulo, con las preguntas y el simulador a mitad de camino" loading="lazy">
+  </div>
+</section>
+
+<section id="con-tus-manos">
+  <div class="wrap">
+    <h2>Con tus manos, el plan es tuyo</h2>
+    <p class="muted" style="max-width:760px;">Sin manos, el plan arranca por el principio del camino. Cuando analizás tus torneos, Payjump encuentra el error que más fichas te cuesta y te lleva al módulo que lo explica, y antes de cada sesión tenés un calentamiento de cinco minutos sobre tus propios errores.</p>
+    <div class="cta-row" style="margin-top:22px;">
+      <a class="btn btn-gold" href="index.html#precio">Ver precio y suscribirme</a>
+      <a class="btn btn-ghost" href="index.html#como">Cómo encuentra tus errores</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div>© <span id="anio"></span> Payjump. Hecho en Argentina.</div>
+    <div><a id="mail-footer" href="#">Contacto</a> · <a href="terminos.html">Términos</a> · <a href="reembolsos.html">Reembolsos</a> · <a href="privacidad.html">Privacidad</a> · <a id="ig-link" href="#" rel="noopener">Instagram</a></div>
+  </div>
+</footer>
+
+<script>
+  const MAIL   = 'support@payjumppoker.com';
+  const IG_URL = 'https://www.instagram.com/payjumppoker/';
+  document.getElementById('anio').textContent = new Date().getFullYear();
+  document.getElementById('mail-footer').href = 'mailto:' + MAIL;
+  const ig = document.getElementById('ig-link'); ig.href = IG_URL; ig.target = '_blank';
+
+  // ORIGEN (mismo criterio que index.html): esta pagina no cuenta visitas
+  // (el Worker acepta solo /, /checkout y /gracias), pero si alguien llega aca
+  // desde Instagram y despues se suscribe desde la home, la suscripcion tiene
+  // que atribuirse a Instagram. Solo se guarda en este navegador, 7 dias.
+  try {
+    const desde = new URLSearchParams(location.search).get('desde');
+    const ref = document.referrer || '';
+    let origen = 'directo';
+    if (desde === 'instagram' || /instagram\./i.test(ref)) origen = 'instagram';
+    else if (/google\./i.test(ref)) origen = 'google';
+    else if (ref && ref.indexOf(location.host) < 0) origen = 'otro';
+    const prev = JSON.parse(localStorage.getItem('pj_origen') || 'null');
+    const vigente = prev && Date.now() - prev.t < 7 * 864e5;
+    if (origen !== 'directo' || !vigente) localStorage.setItem('pj_origen', JSON.stringify({ o: origen, t: Date.now() }));
+    if (desde) history.replaceState(null, '', location.pathname + location.hash);
+  } catch (_) {}
+</script>
+</body>
+</html>
