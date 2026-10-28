@@ -71,7 +71,7 @@ arquitectura_node() {
 main() {
     if [ "$(uname -s)" != "Darwin" ]; then
         fallar "Este instalador es para Mac." \
-            "En Windows, Payjump se baja de la Microsoft Store. En Linux, pedinos el ZIP."
+            "En Windows, Payjump se baja de la Microsoft Store."
     fi
     command -v curl >/dev/null 2>&1 || fallar "No encuentro curl, que viene con macOS."
     command -v shasum >/dev/null 2>&1 || fallar "No encuentro shasum, que viene con macOS."
