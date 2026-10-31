@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Las paginas indexables del sitio (2026-10-31). Al sumar una pagina, va aca;
+     gracias.html no va: es la vuelta del pago y lleva noindex. -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://payjumppoker.com/</loc><lastmod>2026-10-31</lastmod></url>
+  <url><loc>https://payjumppoker.com/estudio.html</loc><lastmod>2026-10-31</lastmod></url>
+  <url><loc>https://payjumppoker.com/terminos.html</loc><lastmod>2026-10-31</lastmod></url>
+  <url><loc>https://payjumppoker.com/privacidad.html</loc><lastmod>2026-10-31</lastmod></url>
+  <url><loc>https://payjumppoker.com/reembolsos.html</loc><lastmod>2026-10-25</lastmod></url>
+</urlset>

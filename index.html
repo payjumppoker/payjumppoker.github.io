@@ -5,14 +5,76 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- MARCA: el nombre se publico el 2026-10-21 (decision del usuario).
      El dominio canonico es payjumppoker.com; mientras no este comprado, GitHub Pages. -->
-<title>Payjump</title>
-<meta name="description" content="Encontrá el error que más fichas te cuesta en tus torneos online de Texas Hold'em. Diagnóstico sobre tus manos reales, replay, teoría y trainer. Windows, tus manos no salen de tu PC. Probalo 7 días gratis, sin tarjeta; después, suscripción mensual que cancelás cuando quieras.">
+<!-- SEO (2026-10-31): el title y la description llevan lo que se busca ("manos de poker",
+     "torneos"), no solo la marca; title <= 60 y description <= 160 caracteres, que es lo que
+     Google muestra. El JSON-LD de abajo tiene que decir lo mismo que la pagina: si cambia
+     el precio, la duracion del video o el sistema operativo, se cambia en los dos lados.
+     robots.txt y sitemap.xml viven en la raiz; al sumar una pagina, va al sitemap. -->
+<title>Payjump: analizá tus manos de poker y entrená para torneos</title>
+<meta name="description" content="Analizá tus manos de torneos de poker (MTT y PKO): qué errores repetís, la mano exacta y la teoría que lo corrige. Para Windows. 7 días gratis, sin tarjeta.">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<meta property="og:site_name" content="Payjump">
+<meta property="og:locale" content="es_AR">
 <meta property="og:title" content="Payjump — el error que más fichas te cuesta">
 <meta property="og:description" content="Diagnóstico de tus torneos online, mano por mano. Sin PokerTracker. 100% local. 7 días gratis, sin tarjeta.">
 <meta property="og:image" content="https://payjumppoker.com/img/diagnostico.png">
+<meta property="og:image:width" content="1280">
+<meta property="og:image:height" content="720">
+<meta property="og:image:alt" content="Tabla de diagnóstico de Payjump con los errores que más se repiten">
 <meta property="og:url" content="https://payjumppoker.com/">
 <link rel="canonical" href="https://payjumppoker.com/">
 <meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://payjumppoker.com/#org",
+      "name": "Payjump",
+      "url": "https://payjumppoker.com/",
+      "email": "support@payjumppoker.com",
+      "sameAs": ["https://www.instagram.com/payjumppoker/"]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://payjumppoker.com/#web",
+      "name": "Payjump",
+      "url": "https://payjumppoker.com/",
+      "inLanguage": "es-AR",
+      "publisher": { "@id": "https://payjumppoker.com/#org" }
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "Payjump",
+      "url": "https://payjumppoker.com/",
+      "description": "Software de estudio para torneos de poker (MTT y PKO): analiza tus manos reales, te muestra qué errores repetís, abre la mano exacta y te lleva a la teoría y al trainer que lo corrige. Tus manos no salen de tu PC.",
+      "applicationCategory": "EducationalApplication",
+      "operatingSystem": "Windows 10, Windows 11",
+      "inLanguage": "es",
+      "downloadUrl": "https://apps.microsoft.com/detail/9P3QQTMGZPZT",
+      "screenshot": "https://payjumppoker.com/img/diagnostico.png",
+      "publisher": { "@id": "https://payjumppoker.com/#org" },
+      "offers": [
+        { "@type": "Offer", "price": "15000", "priceCurrency": "ARS", "description": "Suscripción mensual (Argentina), 7 días de prueba gratis sin tarjeta" },
+        { "@type": "Offer", "price": "13", "priceCurrency": "USD", "description": "Suscripción mensual, impuestos incluidos, 7 días de prueba gratis sin tarjeta" }
+      ]
+    },
+    {
+      "@type": "VideoObject",
+      "name": "Payjump en 45 segundos",
+      "description": "Del diagnóstico de tus torneos a la mano exacta, la teoría que lo explica, el trainer y el calentamiento.",
+      "thumbnailUrl": "https://payjumppoker.com/demo-poster.jpg",
+      "contentUrl": "https://payjumppoker.com/demo.mp4",
+      "uploadDate": "2026-10-31",
+      "duration": "PT45S",
+      "inLanguage": "es-AR",
+      "publisher": { "@id": "https://payjumppoker.com/#org" }
+    }
+  ]
+}
+</script>
 <style>
   :root {
     --surface: #141823; --surface-2: #1b2030; --surface-3: #232938;
@@ -26,7 +88,7 @@
   body { margin: 0; background: var(--surface); color: var(--text);
     font: 16px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
   a { color: var(--gold); }
-  img, video { max-width: 100%; display: block; }
+  img, video { max-width: 100%; height: auto; display: block; }
   .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 16px; }
   h1, h2, h3 { line-height: 1.15; letter-spacing: -0.01em; margin: 0 0 12px; }
   h1 { font-size: clamp(32px, 5vw, 54px); }
@@ -140,8 +202,8 @@
   <div class="wrap">
     <div>
       <div class="badge-prueba">7 días gratis · sin tarjeta</div>
-      <div class="eyebrow">Torneos online · MTT y PKO · Windows</div>
-      <h1>Encontrá el error que más fichas te cuesta en tus torneos.</h1>
+      <div class="eyebrow">Torneos de poker online · MTT y PKO · Windows</div>
+      <h1>Encontrá el error que más fichas te cuesta en tus torneos de poker.</h1>
       <p class="lead">Lee tus manos reales directo de la carpeta de tu sala, te muestra qué errores repetís y cuál te cuesta más, y te lleva de esa mano a la teoría y al trainer que lo corrige. Sin PokerTracker, sin cuenta, sin subir nada a internet.</p>
       <div class="cta-row">
         <a class="btn btn-gold btn-prueba" href="https://apps.microsoft.com/detail/9P3QQTMGZPZT" target="_blank" rel="noopener">Probar 7 días gratis</a>
@@ -150,7 +212,7 @@
       <p class="soft">Bajás la app gratis de la Microsoft Store, elegís "Probar 7 días gratis" y ponés tu mail. Sin tarjeta. ¿Ya te decidiste? <a href="#precio">Suscribite directo</a>.</p>
     </div>
     <div class="video-frame" id="demo">
-      <video controls playsinline preload="metadata" poster="demo-poster.jpg">
+      <video controls playsinline preload="metadata" poster="demo-poster.jpg" width="1280" height="720">
         <source src="demo.mp4?v=2" type="video/mp4">
         <source src="demo.webm?v=2" type="video/webm">
         Tu navegador no reproduce video. <a href="demo.mp4">Descargá la demo</a>.
@@ -170,7 +232,7 @@
           <h3>Diagnóstico sobre tus manos reales</h3>
           <p class="muted">Importa tus hand histories de PokerStars, Winamax, 888, GGPoker y más. Compara cada decisión contra rangos de referencia y te lista los errores que <strong>repetís</strong>, del que más se repite al que menos, y te marca cuál te cuesta más.</p>
         </div>
-        <img src="img/diagnostico.png" alt="Tabla de diagnóstico con los errores ordenados por cuántas veces se repiten" loading="lazy">
+        <img src="img/diagnostico.png" width="1280" height="720" alt="Tabla de diagnóstico con los errores ordenados por cuántas veces se repiten" loading="lazy">
       </div>
       <div class="step">
         <div class="step-text">
@@ -178,7 +240,7 @@
           <h3>Replay de la mano exacta</h3>
           <p class="muted">Cada error abre la mano donde pasó: tu acción, lo que decía el rango para ese stack y esa posición, y por qué. Preflop y postflop (c-bet, barriles).</p>
         </div>
-        <img src="img/replay.png" alt="Replay de una mano con el veredicto y el rango de referencia" loading="lazy">
+        <img src="img/replay.png" width="1280" height="720" alt="Replay de una mano con el veredicto y el rango de referencia" loading="lazy">
       </div>
       <div class="step">
         <div class="step-text">
@@ -186,15 +248,15 @@
           <h3>La teoría que explica ese error</h3>
           <p class="muted">Desde el replay, un click te lleva al módulo que cubre ese spot: push/fold, defensa de ciega, squeeze, ICM en burbuja, bounty cuando cubrís al rival, c-bet por textura.</p>
         </div>
-        <img src="img/teoria.png" alt="Módulo de teoría con el chart vivo" loading="lazy">
+        <img src="img/teoria.png" width="1280" height="720" alt="Módulo de teoría con el chart vivo" loading="lazy">
       </div>
       <div class="step">
         <div class="step-text">
           <div class="num">4</div>
           <h3>Trainer y calentamiento</h3>
-          <p class="muted">Practicás los spots que te fallan, no spots al azar. Veredicto inmediato con el rango al lado, repetición espaciada, y un calentamiento de cinco minutos antes de cada sesión.</p>
+          <p class="muted">Practicás los spots que te fallan, no spots al azar. Veredicto inmediato con el rango al lado, repetición espaciada, y un calentamiento sobre tus propios errores antes de cada sesión.</p>
         </div>
-        <img src="img/trainer.png" alt="Trainer con el veredicto de un spot" loading="lazy">
+        <img src="img/trainer.png" width="1280" height="720" alt="Trainer con el veredicto de un spot" loading="lazy">
       </div>
     </div>
   </div>
@@ -215,7 +277,7 @@
       <div class="cifra"><b>+1.400</b><span>spots de práctica</span></div>
       <div class="cifra"><b>4</b><span>etapas, de Recreational a Professional</span></div>
     </div>
-    <img class="shot" src="img/estudio-modulo.png" alt="Un módulo de teoría: el camino de aprendizaje paso por paso y el estándar para graduarse" loading="lazy">
+    <img class="shot" src="img/estudio-modulo.png" width="2100" height="1238" alt="Un módulo de teoría: el camino de aprendizaje paso por paso y el estándar para graduarse" loading="lazy">
     <div class="cta-row" style="margin-top:22px;">
       <a class="btn btn-ghost" href="estudio.html">Ver el plan de estudio completo</a>
     </div>
