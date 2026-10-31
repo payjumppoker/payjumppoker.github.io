@@ -6,9 +6,9 @@
 <!-- MARCA: el nombre se publico el 2026-10-21 (decision del usuario).
      El dominio canonico es payjumppoker.com; mientras no este comprado, GitHub Pages. -->
 <title>Payjump</title>
-<meta name="description" content="Encontrá el error que más fichas te cuesta en tus torneos online de Texas Hold'em. Diagnóstico sobre tus manos reales, replay, teoría y trainer. Windows, tus manos no salen de tu PC. Suscripción mensual, cancelás cuando quieras.">
+<meta name="description" content="Encontrá el error que más fichas te cuesta en tus torneos online de Texas Hold'em. Diagnóstico sobre tus manos reales, replay, teoría y trainer. Windows, tus manos no salen de tu PC. Probalo 7 días gratis, sin tarjeta; después, suscripción mensual que cancelás cuando quieras.">
 <meta property="og:title" content="Payjump — el error que más fichas te cuesta">
-<meta property="og:description" content="Diagnóstico de tus torneos online, mano por mano. Sin PokerTracker. 100% local.">
+<meta property="og:description" content="Diagnóstico de tus torneos online, mano por mano. Sin PokerTracker. 100% local. 7 días gratis, sin tarjeta.">
 <meta property="og:image" content="https://payjumppoker.com/img/diagnostico.png">
 <meta property="og:url" content="https://payjumppoker.com/">
 <link rel="canonical" href="https://payjumppoker.com/">
@@ -98,6 +98,15 @@
   .price-card ul { text-align: left; margin: 18px auto; padding-left: 20px; color: var(--text-2); max-width: 380px; }
   .price-card ul li { margin: 6px 0; }
   .after-pay { background: var(--surface-3); border-radius: 10px; padding: 12px 14px; font-size: 14px; color: var(--text-2); margin-top: 16px; text-align: left; }
+  /* prueba gratis (2026-10-31) */
+  .badge-prueba { display: inline-block; background: rgba(251,191,36,.12); border: 1px solid var(--gold); color: var(--gold);
+    border-radius: 999px; padding: 4px 12px; font-weight: 700; font-size: 14px; margin-bottom: 14px; }
+  .trial-box { background: var(--surface-2); border: 2px solid var(--gold); border-radius: var(--radius);
+    padding: 26px 28px; max-width: 520px; margin: 0 auto 22px; text-align: center; }
+  .trial-box h2 { margin: 6px 0 4px; }
+  .trial-box ol { text-align: left; margin: 16px auto; padding-left: 22px; color: var(--text-2); max-width: 380px; }
+  .trial-box ol li { margin: 6px 0; }
+  .hero .soft { margin-top: 10px; }
 
   /* compat */
   .pills { display: flex; flex-wrap: wrap; gap: 8px; }
@@ -122,7 +131,7 @@
       <li><a href="#estudio">Plan de estudio</a></li>
       <li><a href="#que">Qué incluye</a></li>
       <li><a href="#faq">Preguntas</a></li>
-      <li><a href="#precio" class="btn btn-gold" style="padding:8px 14px; font-size:14px;">Comprar</a></li>
+      <li><a href="#precio" class="btn btn-gold" style="padding:8px 14px; font-size:14px;">Probar gratis</a></li>
     </ul>
   </div>
 </nav>
@@ -130,13 +139,15 @@
 <header class="hero">
   <div class="wrap">
     <div>
+      <div class="badge-prueba">7 días gratis · sin tarjeta</div>
       <div class="eyebrow">Torneos online · MTT y PKO · Windows</div>
       <h1>Encontrá el error que más fichas te cuesta en tus torneos.</h1>
       <p class="lead">Lee tus manos reales directo de la carpeta de tu sala, te muestra qué error repetís y cuánto te cuesta, y te lleva de esa mano a la teoría y al trainer que lo corrige. Sin PokerTracker, sin cuenta, sin subir nada a internet.</p>
       <div class="cta-row">
-        <a class="btn btn-gold" href="#precio">Comprar y descargar</a>
+        <a class="btn btn-gold btn-prueba" href="https://apps.microsoft.com/detail/9P3QQTMGZPZT" target="_blank" rel="noopener">Probar 7 días gratis</a>
         <a class="btn btn-ghost" href="#demo">Ver la demo de 1 minuto</a>
       </div>
+      <p class="soft">Bajás la app gratis de la Microsoft Store, elegís "Probar 7 días gratis" y ponés tu mail. Sin tarjeta. ¿Ya te decidiste? <a href="#precio">Suscribite directo</a>.</p>
     </div>
     <div class="video-frame" id="demo">
       <video controls playsinline preload="metadata" poster="demo-poster.png">
@@ -239,6 +250,19 @@
 
 <section id="precio">
   <div class="wrap">
+    <!-- PRUEBA GRATIS (2026-10-31): la emite el Worker desde la app, una por
+         persona y por computadora (marketing/avisos/CONFIGURACION.md, seccion 6). -->
+    <div class="trial-box" id="prueba">
+      <div class="eyebrow">Probalo primero</div>
+      <h2>7 días gratis, sin tarjeta</h2>
+      <ol>
+        <li>Bajá Payjump de la <a href="https://apps.microsoft.com/detail/9P3QQTMGZPZT" rel="noopener">Microsoft Store</a> (es gratis).</li>
+        <li>Al abrirlo, elegí <strong>"Probar 7 días gratis"</strong> y poné tu mail.</li>
+        <li>Pegá el código que te llega y listo: la app completa, con tus manos.</li>
+      </ol>
+      <a class="btn btn-gold btn-prueba" href="https://apps.microsoft.com/detail/9P3QQTMGZPZT" target="_blank" rel="noopener">Probar 7 días gratis</a>
+      <p class="soft" style="margin-top:12px;">Una prueba por persona y por computadora. Mientras dura, la app necesita internet. Cuando termina deja de analizar hasta que te suscribas, y tu progreso queda en tu PC.</p>
+    </div>
     <div class="price-card">
       <div class="eyebrow">Precio de lanzamiento</div>
       <div class="price" id="precio-valor">ARS 15.000 <span style="font-size:.45em;font-weight:600;opacity:.8;">/ mes</span></div>
@@ -270,9 +294,11 @@
     <details><summary>¿Sirve para cash games?</summary><p>No. Está hecho para torneos: stacks cortos, push/fold, ICM en burbuja y mesa final, bounties. Un rango de cash a 100bb no es lo que vas a jugar en un torneo.</p></details>
     <details><summary>¿De dónde salen los rangos?</summary><p>De rangos de referencia por posición y stack (chip-EV, Nash para push/fold), ajustados por ICM y bounty, y contrastados contra cómo juega el field real. Podés ver el chart que juzgó cada mano, y editarlo si seguís otra escuela.</p></details>
     <details><summary>¿Cómo recibo el programa?</summary><p>Desde la <a href="https://apps.microsoft.com/detail/9P3QQTMGZPZT" rel="noopener">Microsoft Store</a>: el link te llega en el mail de bienvenida apenas se confirma el pago. Las versiones nuevas se instalan solas.</p></details>
-    <details><summary>¿Puedo bajarla antes de suscribirme?</summary><p>Sí, la descarga es gratis en la <a href="https://apps.microsoft.com/detail/9P3QQTMGZPZT" rel="noopener">Microsoft Store</a>. Para usarla hay que activarla con el mail de una suscripción: sin eso, se queda en la pantalla de activación.</p></details>
+    <details><summary>¿Puedo probarla antes de pagar?</summary><p>Sí: 7 días gratis, sin tarjeta. La bajás de la <a href="https://apps.microsoft.com/detail/9P3QQTMGZPZT" rel="noopener">Microsoft Store</a>, elegís "Probar 7 días gratis", ponés tu mail y pegás el código que te llega. Es la app completa, con tus manos. Hay una prueba por persona y por computadora.</p></details>
+    <details><summary>¿Qué pasa cuando terminan los 7 días?</summary><p>La app deja de analizar hasta que te suscribas. No se cobra nada solo: nunca te pedimos la tarjeta. Si te suscribís, activás con el mismo mail desde "Ya me suscribí" y seguís donde estabas; tus manos y tu progreso quedan en tu PC. Dos días antes del final te avisamos por mail.</p></details>
+    <details><summary>¿Necesito internet durante la prueba?</summary><p>Sí. Mientras dura la prueba, la app confirma cada tanto los días que te quedan; si pasa medio día sin poder confirmarlo, te pide conectarte. Con la suscripción, en cambio, funciona hasta 30 días sin conexión.</p></details>
     <details><summary>¿Qué pasa si cancelo?</summary><p>La cancelás sin escribirnos: desde tu cuenta de Mercado Pago, o, si pagás en dólares, desde el link del mail de bienvenida o desde <a href="https://customer-portal.paddle.com/cpl_01m5spvmmqabz5abhd4yga18ht" rel="noopener">el portal de clientes de Paddle</a> (entrás con tu mail). Cuando termina el mes que ya pagaste, la app deja de analizar; tus manos y tu progreso quedan en tu PC, y si volvés a suscribirte seguís donde estabas.</p></details>
-    <details><summary>¿Qué pasa si se corta internet?</summary><p>La app sigue funcionando hasta 30 días sin conexión. Después pide conectarse una vez para confirmar que la suscripción está al día.</p></details>
+    <details><summary>¿Qué pasa si se corta internet?</summary><p>Con la suscripción, la app sigue funcionando hasta 30 días sin conexión. Después pide conectarse una vez para confirmar que la suscripción está al día. Durante la prueba gratis, en cambio, necesita conectarse al menos cada 12 horas.</p></details>
     <details><summary>¿Qué pasa con mis manos?</summary><p>Se quedan en tu PC, en una base local. No subimos manos a ningún servidor ni hay cuenta ni login: lo único que viaja es tu mail y un código de tu equipo, para validar la suscripción.</p></details>
   </div>
 </section>
@@ -322,6 +348,10 @@
     const desde = new URLSearchParams(location.search).get('desde');
     const ref = document.referrer || '';
     if (desde === 'instagram' || /instagram\./i.test(ref)) return 'instagram';
+    // Prueba gratis (2026-10-31): el link de la app (franja, prueba vencida) y el
+    // del mail de aviso. Es el embudo de conversion de la prueba.
+    if (desde === 'prueba') return 'app';
+    if (desde === 'prueba-mail') return 'mail';
     if (/google\./i.test(ref)) return 'google';
     if (ref && ref.indexOf(location.host) < 0) return 'otro';
     return 'directo';
@@ -337,6 +367,7 @@
   } catch (_) {}
   contar('/', origen);
   pagar.addEventListener('click', () => contar('/checkout', origenGuardado));
+  for (const b of document.querySelectorAll('.btn-prueba')) b.addEventListener('click', () => contar('/prueba', origenGuardado));
   // Sacar ?desde= de la barra: si alguien copia el link y lo comparte, la
   // visita del otro no tiene que contar como Instagram.
   if (new URLSearchParams(location.search).has('desde')) { try { history.replaceState(null, '', location.pathname + location.hash); } catch (_) {} }
