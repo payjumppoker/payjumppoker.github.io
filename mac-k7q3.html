@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<meta name="robots" content="noindex, nofollow">
+<title>Payjump para Mac</title>
+<!-- Pagina OCULTA (2026-11-14): experimento del instalador .pkg de Mac con gente
+     de confianza. Sin link desde ningun lado, fuera de sitemap.xml y de
+     robots.txt (listarla ahi la publicaria). El .pkg lo arma y lo prueba
+     .github/workflows/mac-pkg.yml. Los 30 dias: el mail tiene que estar en el
+     secreto PRUEBA_LARGA_EMAILS del Worker ANTES de que empiece la prueba. -->
+<style>
+  :root { --surface: #141823; --surface-2: #1b2030; --text: #F4F5F7; --text-2: #B4C2D4; --gold: #FBBF24; --border: #232938; }
+  body { margin: 0; background: var(--surface); color: var(--text); font: 16px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  .wrap { max-width: 640px; margin: 0 auto; padding: 56px 16px; }
+  .brand { font-weight: 800; font-size: 22px; letter-spacing: -0.02em; margin-bottom: 28px; }
+  .brand b { color: var(--gold); }
+  h1 { font-size: clamp(26px, 4vw, 36px); margin: 0 0 12px; line-height: 1.15; }
+  p { margin: 0 0 12px; color: var(--text-2); }
+  .card { background: var(--surface-2); border: 1px solid var(--border); border-radius: 14px; padding: 22px; margin: 22px 0; }
+  .card ol { margin: 0; padding-left: 20px; color: var(--text-2); } .card li { margin: 10px 0; }
+  .card strong { color: var(--text); }
+  a { color: var(--gold); }
+  .btn { display: inline-block; margin-top: 8px; padding: 12px 20px; border-radius: 10px; background: var(--gold); color: #141823; font-weight: 700; text-decoration: none; }
+  .btn.sec { background: transparent; color: var(--gold); border: 1px solid var(--gold); padding: 8px 14px; font-size: 15px; }
+  .soft { font-size: 14px; color: #8593a8; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="brand">Pay<b>jump</b></div>
+  <h1>Payjump para Mac: 30 días de prueba</h1>
+  <p>Bajás el instalador, le das doble clic y listo. La primera vez macOS te frena con un aviso: abajo está cómo pasarlo, es una sola vez.</p>
+  <a class="btn" href="https://github.com/payjumppoker/payjumppoker.github.io/releases/download/mac-pkg/Payjump.pkg">Bajar Payjump para Mac</a>
+
+  <div class="card">
+    <strong>Paso a paso</strong>
+    <ol>
+      <li>Abrí <strong>Payjump.pkg</strong> desde Descargas con doble clic.</li>
+      <li>macOS dice que no pudo verificar el archivo. Tocá <strong>Listo</strong> (no lo mandes a la papelera).</li>
+      <li>Abrí <strong>Ajustes del Sistema → Privacidad y seguridad</strong> y bajá hasta el final. Al lado de "Se bloqueó Payjump.pkg" tocá <strong>Abrir igualmente</strong> y poné la contraseña de tu Mac.<br>
+        <a class="btn sec" href="x-apple.systempreferences:com.apple.settings.PrivacySecurity.extension">Abrir Privacidad y seguridad</a></li>
+      <li>Se abre el instalador: <strong>Continuar → Instalar</strong> y otra vez tu contraseña. Tarda unos minutos porque baja Payjump de internet.</li>
+      <li>Al terminar se abre una ventana de Terminal (dejala abierta mientras uses Payjump: es la app funcionando) y tu navegador con Payjump.</li>
+      <li>Elegí <strong>Probar gratis</strong> y poné tu mail. La pantalla dice 7 días, pero la tuya dura <strong>30</strong>.</li>
+    </ol>
+  </div>
+
+  <p>Las próximas veces abrilo buscando <strong>Payjump</strong> en Spotlight (Cmd + Espacio).</p>
+  <p class="soft">¿Por qué el aviso? Apple frena todo lo que no pasó por su programa pago de desarrolladores. Si tu Mac tiene un macOS anterior a Sequoia (15), alcanza con clic derecho sobre el archivo → Abrir.</p>
+  <p class="soft">Cualquier cosa, escribinos a <a href="mailto:support@payjumppoker.com">support@payjumppoker.com</a>.</p>
+</div>
+</body>
+</html>

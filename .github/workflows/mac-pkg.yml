@@ -1,0 +1,57 @@
+# Payjump.pkg para Mac (2026-11-14). Arma el instalador .pkg SIN FIRMAR en un
+# macOS de GitHub (gratis en repos publicos; pkgbuild no existe en Windows), lo
+# instala en esa misma maquina, arranca el servidor, y recien entonces lo sube al
+# release `mac-pkg` (nunca "latest": ese es el del paquete, que baja mac.sh).
+#
+# El pkg no trae Payjump: su postinstall corre mac.sh, que baja la ultima
+# version. Hay que volver a correrlo solo si cambia mac.sh o el postinstall.
+# Se corre a mano: Actions > Payjump.pkg (Mac) > Run workflow, o
+#   gh workflow run mac-pkg.yml -R payjumppoker/payjumppoker.github.io
+name: Payjump.pkg (Mac)
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  pkg:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Armar Payjump.pkg
+        run: |
+          mkdir -p build/scripts
+          cp .github/mac-pkg/postinstall build/scripts/postinstall
+          cp mac.sh build/scripts/instalar.sh
+          chmod +x build/scripts/postinstall build/scripts/instalar.sh
+          pkgbuild --nopayload --scripts build/scripts \
+            --identifier com.payjumppoker.payjump.instalador \
+            --version "$(date +%Y.%m.%d)" Payjump.pkg
+
+      - name: Instalarlo en este macOS
+        run: |
+          echo "usuario de consola: $(stat -f%Su /dev/console)"
+          sudo installer -pkg Payjump.pkg -target / || { sudo tail -80 /var/log/install.log; exit 1; }
+          dest="$HOME/Library/Application Support/Payjump"
+          test -f "$dest/dist/index.js"
+          "$dest/runtime/node" --version
+          test -x "$HOME/Applications/Payjump.app/Contents/MacOS/Payjump"
+
+      - name: Arranca el servidor
+        run: |
+          cd "$HOME/Library/Application Support/Payjump"
+          PORT=3999 ./runtime/node dist/index.js > /tmp/servidor.log 2>&1 &
+          for i in $(seq 1 30); do
+            if curl -fsS -o /dev/null http://localhost:3999/; then echo "responde"; exit 0; fi
+            sleep 1
+          done
+          cat /tmp/servidor.log; exit 1
+
+      - name: Publicar en el release mac-pkg
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release view mac-pkg >/dev/null 2>&1 || gh release create mac-pkg \
+            --title "Payjump.pkg (Mac)" --latest=false \
+            --notes "Instalador .pkg sin firmar. Al instalar baja la ultima version de Payjump."
+          gh release upload mac-pkg Payjump.pkg --clobber

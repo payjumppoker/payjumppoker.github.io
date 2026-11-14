@@ -1,0 +1,25 @@
+#!/bin/bash
+# Payjump.pkg — postinstall (2026-11-14).
+#
+# El .pkg no trae archivos: es la puerta de doble clic al MISMO instalador de
+# siempre (mac.sh, que el workflow pone al lado como instalar.sh). Lo que suma es
+# que se baja con el navegador: Gatekeeper lo frena UNA vez (Ajustes >
+# Privacidad y seguridad > Abrir igualmente), y lo que este script crea en el
+# disco no queda en cuarentena, asi que Payjump abre despues sin carteles.
+#
+# Installer corre los scripts como root. instalar.sh instala en el HOME de quien
+# lo corre, asi que se lo corre como el usuario que esta frente a la Mac, y en su
+# sesion grafica (launchctl asuser) para que el `open` del final abra la app.
+# La salida queda en /var/log/install.log.
+set -u
+
+aqui="$(cd "$(dirname "$0")" && pwd)"
+usuario="$(stat -f%Su /dev/console)"
+case "$usuario" in
+    ""|root|loginwindow|_mbsetupuser)
+        echo "Payjump: no hay un usuario con sesion abierta ($usuario)." >&2
+        exit 1 ;;
+esac
+uid="$(id -u "$usuario")"
+
+launchctl asuser "$uid" sudo -u "$usuario" -H /bin/bash "$aqui/instalar.sh"
