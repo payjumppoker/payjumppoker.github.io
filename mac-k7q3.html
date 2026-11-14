@@ -9,8 +9,8 @@
 <!-- Pagina OCULTA (2026-11-14): experimento del instalador .pkg de Mac con gente
      de confianza. Sin link desde ningun lado, fuera de sitemap.xml y de
      robots.txt (listarla ahi la publicaria). El .pkg lo arma y lo prueba
-     .github/workflows/mac-pkg.yml. Los 30 dias: el mail tiene que estar en el
-     secreto PRUEBA_LARGA_EMAILS del Worker ANTES de que empiece la prueba. -->
+     .github/workflows/mac-pkg.yml. En Mac la prueba dura 30 dias
+     (PRUEBA_MAC_MINUTOS del Worker). -->
 <style>
   :root { --surface: #141823; --surface-2: #1b2030; --text: #F4F5F7; --text-2: #B4C2D4; --gold: #FBBF24; --border: #232938; }
   body { margin: 0; background: var(--surface); color: var(--text); font: 16px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
@@ -44,11 +44,12 @@
         <a class="btn sec" href="x-apple.systempreferences:com.apple.settings.PrivacySecurity.extension">Abrir Privacidad y seguridad</a></li>
       <li>Se abre el instalador: <strong>Continuar → Instalar</strong> y otra vez tu contraseña. Tarda unos minutos porque baja Payjump de internet.</li>
       <li>Al terminar se abre una ventana de Terminal (dejala abierta mientras uses Payjump: es la app funcionando) y tu navegador con Payjump.</li>
-      <li>Elegí <strong>Probar gratis</strong> y poné tu mail. La pantalla dice 7 días, pero la tuya dura <strong>30</strong>.</li>
+      <li>Elegí <strong>Probar 30 días gratis</strong> y poné tu mail: te llega un código, lo pegás y listo.</li>
     </ol>
   </div>
 
   <p>Las próximas veces abrilo buscando <strong>Payjump</strong> en Spotlight (Cmd + Espacio).</p>
+  <p><strong>Guardá Payjump.pkg</strong>: sirve para actualizar. Cuando haya una versión nueva te avisamos, y para instalarla lo abrís de nuevo. Tu prueba, tu configuración y tus manos se conservan. Si lo bajás otra vez de esta página, macOS te va a pedir de nuevo el paso 3.</p>
   <p class="soft">¿Por qué el aviso? Apple frena todo lo que no pasó por su programa pago de desarrolladores. Si tu Mac tiene un macOS anterior a Sequoia (15), alcanza con clic derecho sobre el archivo → Abrir.</p>
   <p class="soft">Cualquier cosa, escribinos a <a href="mailto:support@payjumppoker.com">support@payjumppoker.com</a>.</p>
 </div>
