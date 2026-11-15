@@ -4,24 +4,24 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="icon" href="/favicon.ico" sizes="any">
-<meta name="robots" content="noindex, nofollow">
+<link rel="canonical" href="https://payjumppoker.com/mac.html">
+<meta name="description" content="Instalá Payjump en tu Mac: el instalador, el aviso de macOS la primera vez y cómo pasarlo, y la prueba gratis de 7 días.">
 <title>Payjump para Mac</title>
-<!-- Pagina OCULTA (2026-11-14): experimento del instalador .pkg de Mac con gente
-     de confianza. Sin link desde ningun lado, fuera de sitemap.xml y de
-     robots.txt (listarla ahi la publicaria). El .pkg lo arma y lo prueba
-     .github/workflows/mac-pkg.yml. En Mac la prueba dura 30 dias
-     (PRUEBA_MAC_MINUTOS del Worker). -->
+<!-- Pagina de Mac (oficial desde 2026-11-15; del 14/11 al 15/11 fue la pagina
+     oculta del experimento, mac-k7q3.html). El .pkg lo arma y lo prueba
+     .github/workflows/mac-pkg.yml; las versiones nuevas se instalan solas al
+     abrir la app (Payjump.command). Ver docs/INSTALADOR.md. -->
 <style>
   :root { --surface: #141823; --surface-2: #1b2030; --text: #F4F5F7; --text-2: #B4C2D4; --gold: #FBBF24; --border: #232938; }
   body { margin: 0; background: var(--surface); color: var(--text); font: 16px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
   .wrap { max-width: 640px; margin: 0 auto; padding: 56px 16px; }
   .brand { font-weight: 800; font-size: 22px; letter-spacing: -0.02em; margin-bottom: 28px; }
-  .brand b { color: var(--gold); }
+  .brand a { color: var(--text); text-decoration: none; } .brand b { color: var(--gold); }
   h1 { font-size: clamp(26px, 4vw, 36px); margin: 0 0 12px; line-height: 1.15; }
   p { margin: 0 0 12px; color: var(--text-2); }
   .card { background: var(--surface-2); border: 1px solid var(--border); border-radius: 14px; padding: 22px; margin: 22px 0; }
   .card ol { margin: 0; padding-left: 20px; color: var(--text-2); } .card li { margin: 10px 0; }
-  .card strong { color: var(--text); }
+  .card strong, p strong { color: var(--text); }
   a { color: var(--gold); }
   .btn { display: inline-block; margin-top: 8px; padding: 12px 20px; border-radius: 10px; background: var(--gold); color: #141823; font-weight: 700; text-decoration: none; }
   .btn.sec { background: transparent; color: var(--gold); border: 1px solid var(--gold); padding: 8px 14px; font-size: 15px; }
@@ -30,9 +30,9 @@
 </head>
 <body>
 <div class="wrap">
-  <div class="brand">Pay<b>jump</b></div>
-  <h1>Payjump para Mac: 30 días de prueba</h1>
-  <p>Bajás el instalador, le das doble clic y listo. La primera vez macOS te frena con un aviso: abajo está cómo pasarlo, es una sola vez.</p>
+  <div class="brand"><a href="/">Pay<b>jump</b></a></div>
+  <h1>Payjump para Mac</h1>
+  <p>Bajás el instalador y le das doble clic. La primera vez macOS te frena con un aviso: abajo está cómo pasarlo, es una sola vez. Necesitás macOS 13.5 (Ventura) o posterior.</p>
   <a class="btn" href="https://github.com/payjumppoker/payjumppoker.github.io/releases/download/mac-pkg/Payjump.pkg">Bajar Payjump para Mac</a>
 
   <div class="card">
@@ -44,14 +44,15 @@
         <a class="btn sec" href="x-apple.systempreferences:com.apple.settings.PrivacySecurity.extension">Abrir Privacidad y seguridad</a></li>
       <li>Se abre el instalador: <strong>Continuar → Instalar</strong> y otra vez tu contraseña. Tarda unos minutos porque baja Payjump de internet.</li>
       <li>Al terminar se abre una ventana de Terminal (dejala abierta mientras uses Payjump: es la app funcionando) y tu navegador con Payjump.</li>
-      <li>Elegí <strong>Probar 30 días gratis</strong> y poné tu mail: te llega un código, lo pegás y listo.</li>
+      <li>Si todavía no te suscribiste, elegí <strong>Probar 7 días gratis</strong> y poné tu mail: te llega un código, lo pegás y listo. Si ya te suscribiste, elegí <strong>Ya me suscribí</strong> y poné el mail con el que pagaste.</li>
     </ol>
   </div>
 
   <p><strong>Para abrir Payjump otro día:</strong> apretá <strong>Cmd + Espacio</strong>, escribí <strong>Payjump</strong> y apretá Enter.</p>
-  <p><strong>Guardá Payjump.pkg</strong>: sirve para actualizar. Cuando haya una versión nueva te avisamos, y para instalarla lo abrís de nuevo. Tu prueba, tu configuración y tus manos se conservan. Si lo bajás otra vez de esta página, macOS te va a pedir de nuevo el paso 3.</p>
+  <p><strong>Se actualiza sola:</strong> cada vez que la abrís, si hay una versión nueva la instala antes de arrancar. Tu prueba o tu suscripción, tu configuración y tus manos se conservan.</p>
   <p class="soft">¿Por qué el aviso? Apple frena todo lo que no pasó por su programa pago de desarrolladores. Si tu Mac tiene un macOS anterior a Sequoia (15), alcanza con clic derecho sobre el archivo → Abrir.</p>
-  <p class="soft">Cualquier cosa, escribinos a <a href="mailto:support@payjumppoker.com">support@payjumppoker.com</a>.</p>
+  <p class="soft">Para desinstalarla, borrá <strong>Payjump</strong> de la carpeta Aplicaciones de tu usuario y la carpeta <strong>Payjump</strong> de ~/Library/Application Support (ahí están tus manos y tu configuración).</p>
+  <p class="soft">Cualquier cosa, escribinos a <a href="mailto:support@payjumppoker.com">support@payjumppoker.com</a>. <a href="/">Volver a Payjump</a>.</p>
 </div>
 </body>
 </html>

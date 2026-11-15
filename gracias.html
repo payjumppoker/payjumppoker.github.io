@@ -35,6 +35,7 @@
   <h1 id="titulo">Tu suscripción está activa. Gracias.</h1>
   <p id="lead">Te mandamos un mail con el link para bajar Payjump. No hace falta esperarlo: ya la podés instalar.</p>
   <a class="btn" id="btnStore" href="https://apps.microsoft.com/detail/9P3QQTMGZPZT" rel="noopener">Bajar Payjump de la Microsoft Store</a>
+  <p class="soft" id="otraMac" style="margin-top:10px;">¿Usás Mac? <a href="/mac.html">Bajala desde acá</a>.</p>
 
   <div class="card">
     <strong>Qué sigue</strong>
@@ -52,10 +53,19 @@
   const q = new URLSearchParams(location.search);
   const tipo = q.get('tipo') || (q.get('preapproval_id') ? 'suscripcion' : 'pago');
   const estado = q.get('estado') || q.get('status') || q.get('collection_status') || '';
+  // MAC (2026-11-15): la Store no le sirve; el boton y el primer paso van a la
+  // pagina de Mac. El iPad tambien dice "Macintosh": se distingue por lo tactil.
+  if (/Macintosh/.test(navigator.userAgent) && navigator.maxTouchPoints < 2) {
+    const b = document.getElementById('btnStore');
+    b.href = '/mac.html';
+    b.textContent = 'Bajar Payjump para Mac';
+    document.getElementById('otraMac').style.display = 'none';
+    document.getElementById('pasos').children[0].textContent = 'Seguí los pasos de la página de Mac: la primera vez macOS muestra un aviso y ahí está cómo pasarlo. Después se actualiza sola.';
+  }
   if (tipo !== 'suscripcion') {
     // Pago unico (checkout viejo, ya no se linkea): el instalador y la clave van a mano.
     const op = q.get('payment_id') || q.get('collection_id') || q.get('merchant_order_id') || '';
-    document.getElementById('btnStore').style.display = 'none';
+    document.getElementById('btnStore').style.display = 'none'; document.getElementById('otraMac').style.display = 'none';
     document.getElementById('titulo').textContent = 'Recibimos tu pago. Gracias.';
     document.getElementById('lead').innerHTML = 'Dentro de las próximas <strong>24 horas hábiles</strong> te llega el instalador al mail de tu cuenta de Mercado Pago.';
     document.getElementById('pasos').children[2].textContent = 'La app te muestra un código de equipo; nos lo mandás y te respondemos con tu clave. Tu compra incluye hasta dos computadoras.';
@@ -68,7 +78,7 @@
       document.getElementById('lead').innerHTML = 'No se te cobró nada. Podés intentar de nuevo desde <a href="/#precio">la página de compra</a> o escribirnos si el problema sigue.';
     }
   } else if (estado === 'rejected' || estado === 'failure' || estado === 'cancelled') {
-    document.getElementById('btnStore').style.display = 'none';
+    document.getElementById('btnStore').style.display = 'none'; document.getElementById('otraMac').style.display = 'none';
     document.getElementById('titulo').textContent = 'La suscripción no se pudo completar.';
     document.getElementById('lead').innerHTML = 'No se te cobró nada. Podés intentar de nuevo desde <a href="/#precio">la página de compra</a> o escribirnos si el problema sigue.';
   } else {

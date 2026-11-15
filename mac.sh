@@ -29,12 +29,20 @@
 #      consola de Payjump.bat en Windows: cerrarla apaga la app;
 #   5. la abre.
 #
+# ACTUALIZACION AUTOMATICA (2026-11-15). Payjump.command, que corre cada vez que
+# se abre la app, vuelve a bajar ESTE script del sitio y lo corre con
+# PAYJUMP_ACTUALIZAR=1: si version.txt ya dice la ultima version publicada no
+# hace nada; si no, instala encima (los datos se conservan, ver el punto 3).
+# "Ultima" es el release `latest` de GitHub, que scripts/publicar_mac.js recien
+# marca despues de que el workflow lo instalo y lo arranco en un macOS real.
+#
 # Todo va adentro de main(), que se llama en la ULTIMA linea: si la descarga
 # del script se corta a la mitad, bash no ejecuta un instalador a medias.
 # Compatible con el bash 3.2 que trae macOS: nada de arrays asociativos ni
 # ${var,,}.
 #
 # Variables para probar (no hacen falta para instalar):
+#   PAYJUMP_VERSION      instalar esa version en vez de la ultima (el workflow)
 #   PAYJUMP_PAQUETE_URL  de donde bajar el paquete (acepta file://)
 #   PAYJUMP_NODE_MIRROR  de donde bajar Node (default https://nodejs.org/dist)
 #   PAYJUMP_DIR          carpeta de instalacion
@@ -43,7 +51,13 @@
 
 set -euo pipefail
 
-PAQUETE_URL_DEFECTO="https://github.com/payjumppoker/payjumppoker.github.io/releases/latest/download/payjump-mac.tar.gz"
+RELEASES="https://github.com/payjumppoker/payjumppoker.github.io/releases"
+
+# La ultima version publicada: GitHub redirige releases/latest a .../tag/<version>.
+# Vacio si no hay red (el `|| true` evita que set -e corte sin decir nada).
+ultima_version() {
+    { curl -fsSI --max-time 15 "$RELEASES/latest" || true; } | tr -d '\r' | sed -n 's#^[Ll]ocation: .*/tag/##p' | tail -1
+}
 
 decir() { printf '%s\n' "$*"; }
 fallar() {
@@ -76,12 +90,28 @@ main() {
     command -v curl >/dev/null 2>&1 || fallar "No encuentro curl, que viene con macOS."
     command -v shasum >/dev/null 2>&1 || fallar "No encuentro shasum, que viene con macOS."
 
-    local paquete_url node_mirror dest apps arch tmp
-    paquete_url="${PAYJUMP_PAQUETE_URL:-$PAQUETE_URL_DEFECTO}"
+    local paquete_url node_mirror dest apps arch tmp version
     node_mirror="${PAYJUMP_NODE_MIRROR:-https://nodejs.org/dist}"
     dest="${PAYJUMP_DIR:-$HOME/Library/Application Support/Payjump}"
     apps="${PAYJUMP_APPS_DIR:-$HOME/Applications}"
     arch="$(arquitectura_node)"
+
+    version="${PAYJUMP_VERSION:-}"
+    if [ -z "$version" ] && [ -z "${PAYJUMP_PAQUETE_URL:-}" ]; then version="$(ultima_version)"; fi
+    if [ "${PAYJUMP_ACTUALIZAR:-}" = "1" ]; then
+        if [ -z "$version" ]; then decir "No pude consultar si hay una version nueva."; return 1; fi
+        if [ "$version" = "$(cat "$dest/version.txt" 2>/dev/null || true)" ]; then
+            decir "Payjump esta al dia ($version)."
+            return 0
+        fi
+        decir "Hay una version nueva de Payjump ($version). Actualizando..."
+    fi
+    if [ -n "${PAYJUMP_PAQUETE_URL:-}" ]; then
+        paquete_url="$PAYJUMP_PAQUETE_URL"
+    else
+        [ -n "$version" ] || fallar "No pude consultar cual es la ultima version de Payjump." "Revisa tu conexion a internet y volve a probar."
+        paquete_url="$RELEASES/download/$version/payjump-mac.tar.gz"
+    fi
 
     tmp="$(mktemp -d "${TMPDIR:-/tmp}/payjump.XXXXXX")"
     # shellcheck disable=SC2064
@@ -159,11 +189,24 @@ main() {
     fi
     # El paquete se arma en Windows, donde no existe el permiso de ejecucion.
     chmod +x "$dest"/*.sh "$dest/runtime/node"
+    # Lo que compara la actualizacion automatica.
+    if [ -n "$version" ]; then printf '%s\n' "$version" > "$dest/version.txt"; fi
 
     cat > "$dest/Payjump.command" <<'COMANDO'
 #!/bin/bash
 # Lo abre Payjump.app en una ventana de Terminal. Cerrar la ventana apaga la app.
-cd "$(dirname "$0")" && exec ./start.sh
+# Antes de arrancar se actualiza sola: baja el instalador del sitio, que no hace
+# nada si ya esta la ultima version. Sin red o si falla, arranca lo instalado.
+# Todo va entre llaves porque el instalador REESCRIBE este archivo, y bash lee
+# los scripts a medida que los ejecuta: asi lo lee entero antes de empezar.
+{
+set -o pipefail   # sin esto, un curl sin red "anda": el pipe devuelve lo de bash
+cd "$(dirname "$0")" || exit 1
+curl -fsSL --max-time 20 https://payjumppoker.com/mac.sh \
+    | PAYJUMP_ACTUALIZAR=1 PAYJUMP_NO_ABRIR=1 PAYJUMP_DIR="$(pwd)" bash \
+    || echo "No pude buscar actualizaciones: arranco la version instalada."
+exec ./start.sh
+}
 COMANDO
     chmod +x "$dest/Payjump.command"
 
@@ -200,6 +243,11 @@ PLIST
     fi
     touch "$app"
 
+    if [ "${PAYJUMP_ACTUALIZAR:-}" = "1" ]; then
+        decir "Listo: Payjump actualizado a la version $version."
+        return 0
+    fi
+
     decir ""
     decir "============================================"
     decir "  Listo. Payjump quedo instalado."
@@ -212,8 +260,8 @@ PLIST
     decir "Si Payjump ya estaba abierto, cerra su ventana de Terminal y volvelo a"
     decir "abrir para usar la version nueva."
     decir ""
-    decir "Para actualizar mas adelante, corre el mismo comando de nuevo: tu"
-    decir "configuracion, tu licencia y tus manos importadas se conservan."
+    decir "Se actualiza sola: cada vez que lo abris, si hay una version nueva la"
+    decir "instala. Tu configuracion, tu licencia y tus manos se conservan."
     decir ""
 
     if [ "${PAYJUMP_NO_ABRIR:-}" != "1" ]; then

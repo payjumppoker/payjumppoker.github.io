@@ -1,20 +1,31 @@
-# Payjump.pkg para Mac (2026-11-14). Arma el instalador .pkg SIN FIRMAR en un
-# macOS de GitHub (gratis en repos publicos; pkgbuild no existe en Windows), lo
-# instala en esa misma maquina, arranca el servidor, y recien entonces lo sube al
-# release `mac-pkg` (nunca "latest": ese es el del paquete, que baja mac.sh).
-#
-# El pkg no trae Payjump: su postinstall corre mac.sh, que baja la ultima
-# version. Hay que volver a correrlo solo si cambia mac.sh o el postinstall.
-# Se corre a mano: Actions > Payjump.pkg (Mac) > Run workflow, o
-#   gh workflow run mac-pkg.yml -R payjumppoker/payjumppoker.github.io
-name: Payjump.pkg (Mac)
+# Payjump para Mac (2026-11-14; con actualizacion automatica desde 2026-11-15).
+# En un macOS de GitHub (gratis en repos publicos; pkgbuild no existe en Windows):
+#   1. arma Payjump.pkg SIN FIRMAR (su postinstall corre mac.sh) y lo instala:
+#      queda la version `latest` de hoy, como la tendria un cliente;
+#   2. con `version` (lo dispara scripts/publicar_mac.js): abre la app como un
+#      cliente, Payjump.command baja mac.sh DEL SITIO y se actualiza a esa
+#      version; tiene que quedar instalada y respondiendo;
+#   3. recien entonces marca esa version `latest`, que es lo que bajan las Macs
+#      al abrir. Si algo falla, nadie la recibe;
+#   4. sube el pkg al release `mac-pkg` (nunca latest).
+# A mano: Actions > Payjump para Mac > Run workflow, o
+#   gh workflow run mac-pkg.yml -R payjumppoker/payjumppoker.github.io [-f version=AAAA.MM.DD.HHMM]
+name: Payjump para Mac
 on:
   workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release a probar y marcar latest (vacio: solo rearma y prueba el pkg)'
+        required: false
+        default: ''
 permissions:
   contents: write
 jobs:
   pkg:
     runs-on: macos-latest
+    env:
+      DEST: /Users/runner/Library/Application Support/Payjump
+      VERSION: ${{ inputs.version }}
     steps:
       - uses: actions/checkout@v4
 
@@ -28,18 +39,19 @@ jobs:
             --identifier com.payjumppoker.payjump.instalador \
             --version "$(date +%Y.%m.%d)" Payjump.pkg
 
-      - name: Instalarlo en este macOS
+      - name: Instalarlo con el pkg
         run: |
           echo "usuario de consola: $(stat -f%Su /dev/console)"
           sudo installer -pkg Payjump.pkg -target / || { sudo tail -80 /var/log/install.log; exit 1; }
-          dest="$HOME/Library/Application Support/Payjump"
-          test -f "$dest/dist/index.js"
-          "$dest/runtime/node" --version
+          test -f "$DEST/dist/index.js"
+          "$DEST/runtime/node" --version
+          echo "version instalada: $(cat "$DEST/version.txt")"
           test -x "$HOME/Applications/Payjump.app/Contents/MacOS/Payjump"
 
       - name: Arranca el servidor
+        if: inputs.version == ''
         run: |
-          cd "$HOME/Library/Application Support/Payjump"
+          cd "$DEST"
           PORT=3999 ./runtime/node dist/index.js > /tmp/servidor.log 2>&1 &
           for i in $(seq 1 30); do
             if curl -fsS -o /dev/null http://localhost:3999/; then echo "responde"; exit 0; fi
@@ -47,7 +59,33 @@ jobs:
           done
           cat /tmp/servidor.log; exit 1
 
-      - name: Publicar en el release mac-pkg
+      - name: Al abrir la app se actualiza a la version nueva y arranca
+        if: inputs.version != ''
+        run: |
+          # El instalador del pkg abrio la app: se cierra, para que el servidor
+          # que responda sea el de la version nueva.
+          osascript -e 'quit app "Terminal"' || true
+          pkill -f dist/index.js || true
+          sleep 5
+          pkill -f dist/index.js || true
+          if curl -s -o /dev/null http://localhost:3000/; then echo "quedo un servidor viejo en 3000"; exit 1; fi
+          cd "$DEST"
+          PAYJUMP_VERSION="$VERSION" nohup ./Payjump.command > /tmp/command.log 2>&1 &
+          for i in $(seq 1 90); do
+            if [ "$(cat version.txt 2>/dev/null)" = "$VERSION" ] && curl -fsS -o /dev/null http://localhost:3000/; then
+              echo "actualizada a $VERSION y respondiendo"; cat /tmp/command.log; exit 0
+            fi
+            sleep 2
+          done
+          cat /tmp/command.log; exit 1
+
+      - name: Marcarla latest
+        if: inputs.version != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release edit "$VERSION" --latest
+
+      - name: Publicar el pkg en el release mac-pkg
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
